@@ -1,8 +1,14 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+<head>
+    <link rel="stylesheet" href="~/css/homepage/homepage.css" asp-append-version="true" />
+</head>
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <img class="home-logo" src="~/logo.png" width="250" />
+    <div class="main-buttons">
+        <button class="main-button">Lag ett spill</button>
+        <button class="main-button">Delta i quiz</button>
+        <button class="main-button">Postansvarlig</button>
+    </div>
 </div>

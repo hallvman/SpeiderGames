@@ -1,0 +1,16 @@
+﻿.home-logo{
+    margin-bottom: 20px;
+}
+
+.main-buttons {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.main-button {
+    height: 30px;
+    margin-right: 20%;
+    margin-left: 20%;
+    margin-bottom: 20px;
+}
