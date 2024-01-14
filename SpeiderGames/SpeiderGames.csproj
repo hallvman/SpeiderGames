@@ -10,4 +10,9 @@
     <None Include="wwwroot\logo.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Frontend\src\assets\" />
+    <Folder Include="Frontend\src\styles\" />
+  </ItemGroup>
+
 </Project>

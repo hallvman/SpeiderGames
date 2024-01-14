@@ -1,3 +1,6 @@
+@{
+    
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,30 +10,27 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SpeiderGames.styles.css" asp-append-version="true" />
+    <link rel="icon" href="/logo.png" sizes="32x32"/>
 </head>
-<body>
-    <header>
-        <nav class="navbar">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SpeiderGames</a>
-            <a class="nav-administrer" asp-area="" asp-controller="Home" asp-action="Index">
-                Administrer en konkurranse
-            </a>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - SpeiderGames - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    
+<body> 
+
+@{
+    await Html.RenderPartialAsync("/Views/Shared/Layout/Header.cshtml", false);
+}
+
+<div class="container" asp-area="" asp-controller="StartApp" asp-action="Index">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+@{
+    await Html.RenderPartialAsync("/Views/Shared/Layout/Footer.cshtml", false);
+}
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

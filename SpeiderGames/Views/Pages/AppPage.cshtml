@@ -1,0 +1,15 @@
+﻿@using System.Text.Json
+@{
+    // Mock props
+    var props = new
+    {
+        basename= "",
+        apiPaths = new
+        {
+            
+        }
+    };
+}
+<div data-props="@JsonSerializer.Serialize(props)">
+    
+</div>

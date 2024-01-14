@@ -4,23 +4,19 @@ using System.Diagnostics;
 
 namespace SpeiderGames.Controllers
 {
-    public class HomeController : Controller
+    public class StartAppController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<StartAppController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public StartAppController(ILogger<StartAppController> logger)
         {
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            return View("/Views/Pages/StartPage.cshtml");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
