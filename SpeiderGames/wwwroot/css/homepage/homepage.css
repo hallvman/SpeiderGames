@@ -8,6 +8,18 @@
     flex-direction: column;
 }
 
+.main-buttons a {
+    color: black;
+}
+
+.main-buttons a:hover {
+    color: grey;
+}
+
+.main-buttons a:visited {
+    text-decoration: none;
+}
+
 .main-button {
     height: 30px;
     margin-right: 20%;

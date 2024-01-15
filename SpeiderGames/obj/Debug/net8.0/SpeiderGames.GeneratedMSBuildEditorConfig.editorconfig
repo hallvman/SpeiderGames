@@ -18,16 +18,16 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\source\SpeiderGames\SpeiderGames
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/source/SpeiderGames/SpeiderGames/Views/Pages/AppPage.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZXNcQXBwUGFnZS5jc2h0bWw=
+[C:/source/SpeiderGames/SpeiderGames/Views/Pages/AdminPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZXNcQWRtaW5QYWdlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/source/SpeiderGames/SpeiderGames/Views/Pages/CreateGamePage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZXNcQ3JlYXRlR2FtZVBhZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/source/SpeiderGames/SpeiderGames/Views/Pages/PostCoordinator.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZXNcUG9zdENvb3JkaW5hdG9yLmNzaHRtbA==
+[C:/source/SpeiderGames/SpeiderGames/Views/Pages/PostCoordinatorPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZXNcUG9zdENvb3JkaW5hdG9yUGFnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/source/SpeiderGames/SpeiderGames/Views/Pages/Privacy.cshtml]
