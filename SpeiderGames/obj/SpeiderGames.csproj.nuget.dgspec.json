@@ -1,28 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\source\\SpeiderGames\\SpeiderGames\\SpeiderGames.csproj": {}
+    "/Users/hallvardmunkasandersen/Source/SpeiderGames/SpeiderGames.csproj": {}
   },
   "projects": {
-    "C:\\source\\SpeiderGames\\SpeiderGames\\SpeiderGames.csproj": {
+    "/Users/hallvardmunkasandersen/Source/SpeiderGames/SpeiderGames.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\source\\SpeiderGames\\SpeiderGames\\SpeiderGames.csproj",
+        "projectUniqueName": "/Users/hallvardmunkasandersen/Source/SpeiderGames/SpeiderGames.csproj",
         "projectName": "SpeiderGames",
-        "projectPath": "C:\\source\\SpeiderGames\\SpeiderGames\\SpeiderGames.csproj",
-        "packagesPath": "C:\\Users\\47941\\.nuget\\packages\\",
-        "outputPath": "C:\\source\\SpeiderGames\\SpeiderGames\\obj\\",
+        "projectPath": "/Users/hallvardmunkasandersen/Source/SpeiderGames/SpeiderGames.csproj",
+        "packagesPath": "/Users/hallvardmunkasandersen/.nuget/packages/",
+        "outputPath": "/Users/hallvardmunkasandersen/Source/SpeiderGames/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\47941\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/hallvardmunkasandersen/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.optimizely.com/feed/packages.svc/": {}
         },
         "frameworks": {
           "net8.0": {
@@ -58,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

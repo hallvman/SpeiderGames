@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SpeiderGames")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3bb616208ca239082bab81ed0042539322537c18")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e12b74d1a174b657d6f1fb44840b83894ea0c71")]
 [assembly: System.Reflection.AssemblyProductAttribute("SpeiderGames")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SpeiderGames")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
