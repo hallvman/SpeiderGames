@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["title"] = "Lag konkurranse";
 }
-@model CreateGameViewModel
+@model GameViewModel
 <head>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/creategamepage/site.css" asp-append-version="true" />
@@ -14,7 +14,7 @@
         </h3>
     </div>
     <div class="CreateGame">
-        @using (Html.BeginForm("Index", "AdminPage", FormMethod.Post))
+        @using (Html.BeginForm("CreateGame", "Game", FormMethod.Post))
             {
                 <label for="GameName">Navn:</label>
                 @Html.TextBoxFor(model => model.GameName, new { required = "required", onchange = "updateSubmitButton()" })
