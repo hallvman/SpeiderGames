@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/hallvardmunkasandersen/Source/Web/Web.csproj",
+      "projectUniqueName": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Web.csproj",
       "projectName": "Web",
-      "projectPath": "/Users/hallvardmunkasandersen/Source/Web/Web.csproj",
+      "projectPath": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Web.csproj",
       "packagesPath": "/Users/hallvardmunkasandersen/.nuget/packages/",
-      "outputPath": "/Users/hallvardmunkasandersen/Source/Web/obj/",
+      "outputPath": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/hallvardmunkasandersen/.nuget/NuGet/NuGet.Config"
