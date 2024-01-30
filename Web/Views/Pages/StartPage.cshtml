@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Forside";
+}
+<head>
+    <link rel="stylesheet" href="~/css/homepage/homepage.css" asp-append-version="true" />
+</head>
+<div class="text-center">
+    <img class="home-logo" src="~/logo.png" width="250" />
+    <div class="main-buttons">
+        <button class="main-button">
+            <a class="container" asp-area="" asp-controller="CreateGamePage" asp-action="Index">
+                Lag en konkurranse
+            </a>
+        </button>
+        <!--
+        <button class="main-button">
+            <a class="container" asp-area="" asp-controller="TakePartPage" asp-action="Index">
+                Delta i quiz
+            </a>
+        </button>
+        -->
+        <button class="main-button">
+            <a class="container" asp-area="" asp-controller="PostCooridnator" asp-action="Index">
+                Postansvarlig
+            </a>
+        </button>
+    </div>
+</div>

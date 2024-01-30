@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["title"] = "Lag konkurranse";
+}
+@model CreateGameViewModel
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/creategamepage/site.css" asp-append-version="true" />
+</head>
+
+<div>
+    <div class="pageTitle">
+        <h3>
+            Lage konkurranse eller quiz
+        </h3>
+    </div>
+    <div class="CreateGame">
+        @using (Html.BeginForm("AdminPage", "AdminPageController", FormMethod.Post))
+            {
+                <label for="GameName">Navn:</label>
+                @Html.TextBoxFor(model => model.GameName, new { required = "required", onchange = "updateSubmitButton()" })
+    
+                <br />
+    
+                <label for="NumberOfTeams">Antall Lag:</label>
+                @Html.TextBoxFor(model => model.NumberOfTeams, new { type = "number", required = "required", onchange = "updateSubmitButton()" })
+                
+                <br />
+                
+                <label for="NumberOfPosts">Antall Poster:</label>
+                @Html.TextBoxFor(model => model.NumberOfPosts, new { type = "number", required = "required", onchange = "updateSubmitButton()" })
+    
+                <br />
+    
+                <div id="dynamicContainer">
+                    <!-- Textboxes for posts/questions will be dynamically added here -->
+                </div>
+    
+                <br />
+    
+                <input type="button" id="nextButton" value="Neste" onclick="createTextboxes()" disabled />
+            }
+        </div>
+    <script src="js/CreateGamePage/CreateGamePage.js"></script>
+</div>

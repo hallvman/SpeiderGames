@@ -1,0 +1,91 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.navbar {
+    background-color: #333;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+    .navbar a {
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+    }
+
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+.navbar a.active {
+    background-color: #04AA6D;
+    color: white;
+}
+
+.navbar-brand{
+    margin-left: 40px;
+}
+
+.nav-administrer {
+    float: right;
+    text-align: center;
+    overflow: hidden;
+    margin-right: 40px;
+}
+
+footer{
+    position: fixed;
+    width: 100%;
+    height: 70px;
+    bottom: 0;
+    text-align: center;
+    background-color: #ddd;
+    border-top-width: 5px;
+    border-top-style: solid;
+    border-top-color: #FFF;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.pageTitle h3{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+footer a {
+    color: black;
+}
+
+footer a:hover {
+    color: grey;
+}
+
+
+
+
