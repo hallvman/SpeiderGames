@@ -2,18 +2,20 @@ using MongoDB.Bson;
 
 namespace SpeiderGames.Models
 {
+    [Serializable]
     public class Post
     {
         public string? Name { get; set; }
         public int Points { get; set; }
     }
-
+    [Serializable]
     public class Team
     {
         public string? Name { get; set; }
         public int Points { get; set; }
     }
 
+    [Serializable]
     public class Game
     {
         public ObjectId Id { get; set; }

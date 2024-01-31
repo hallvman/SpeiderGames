@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SpeiderGames.Models;
+using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
 
 public class CreateTeamsAndPostsController : Controller
@@ -13,33 +14,62 @@ public class CreateTeamsAndPostsController : Controller
         string dbName = _configuration["DbName"];
         _dbContext = new MongoDbContext(_configuration.GetConnectionString("MongoDB"),  dbName);
     }
-    
-    [HttpPost]
-    public ActionResult CreateTeamAndPosts(Game game)
+    [HttpGet]
+    public ActionResult CreateTeamAndPostsPage()
     {
-        try
+        string gameName = TempData["GameName"] as string;
+        int numberOfPosts = Convert.ToInt32(TempData["NumberOfPosts"]);
+        int numberOfTeams = Convert.ToInt32(TempData["NumberOfTeams"]);
+
+        // Retrieve teams and posts from TempData
+        List<Team> teams = TempData["Teams"] as List<Team> ?? new List<Team>();
+        List<Post> posts = TempData["Posts"] as List<Post> ?? new List<Post>();
+
+        // Use the values as needed
+        var model = new Game
         {
-            // Populate the Posts list
-            for (int i = 1; i <= game.NumberOfPosts; i++)
-            {
-                game.Posts.Add(new Post { Name = $"Post{i}", Points = 0 });
-            }
+            GameName = gameName,
+            NumberOfTeams = numberOfTeams,
+            NumberOfPosts = numberOfPosts,
+            Teams = teams,
+            Posts = posts
+        };
+        
+        // For example, you can pass the teams and posts to the view
+        ViewBag.Teams = teams;
+        ViewBag.Posts = posts;
 
-            // Populate the Teams list
-            for (int i = 1; i <= game.NumberOfTeams; i++)
-            {
-                game.Teams.Add(new Team { Name = $"Team{i}", Points = 0 });
-            }
+        return View("/Views/Pages/CreateTeamsAndPostsPage.cshtml", model);
+    }
 
-            // Insert the game into the MongoDB collection
-            _dbContext.Games.InsertOne(game);
+    [HttpPost]
+    public ActionResult CreateTeamAndPosts()
+    {
+        // Your logic for creating teams and posts.
+        // Insert the game into the MongoDB collection
+        
+        string gameName = TempData["GameName"] as string;
+        int numberOfPosts = Convert.ToInt32(TempData["NumberOfPosts"]);
+        int numberOfTeams = Convert.ToInt32(TempData["NumberOfTeams"]);
+        string teamsJson = TempData["Teams"] as string;
+        string postsJson = TempData["Posts"] as string;
+        
+        // Deserialize JSON to List<Team>
+        List<Team> teams = JsonConvert.DeserializeObject<List<Team>>(teamsJson) ?? new List<Team>();
+        List<Post> posts = JsonConvert.DeserializeObject<List<Post>>(postsJson) ?? new List<Post>();
 
-            return RedirectToAction("Index", "SuccessPage"); // Redirect to the home page or any other page
-        }
-        catch (Exception ex)
+        // Use the values as needed
+        var model = new Game
         {
-            // Handle exceptions, log errors, etc.
-            return View("Error");
-        }
+            GameName = gameName,
+            NumberOfTeams = numberOfTeams,
+            NumberOfPosts = numberOfPosts,
+            Teams = teams,
+            Posts = posts
+        };
+        
+        _dbContext.Games.InsertOne(model);
+
+        return RedirectToAction("Index", "SuccessPage"); // Redirect to the home page or any other page
     }
 }
