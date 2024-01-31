@@ -1,19 +1,27 @@
-using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 
 namespace SpeiderGames.Models
 {
-    public class GameViewModel
+    public class Post
+    {
+        public string? Name { get; set; }
+        public int Points { get; set; }
+    }
+
+    public class Team
+    {
+        public string? Name { get; set; }
+        public int Points { get; set; }
+    }
+
+    public class Game
     {
         public ObjectId Id { get; set; }
-        
-        [Required(ErrorMessage = "Game Name is required")]
-        public string GameName { get; set; }
-
-        [Range(1, int.MaxValue, ErrorMessage = "Number of Posts/Questions must be greater than 0")]
+        public string? GameName { get; set; }
         public int NumberOfPosts { get; set; }
-
-        [Range(1, int.MaxValue, ErrorMessage = "Number of Teams must be greater than 0")]
         public int NumberOfTeams { get; set; }
+
+        public List<Post>? Posts { get; set; }
+        public List<Team>? Teams { get; set; }
     }
 }

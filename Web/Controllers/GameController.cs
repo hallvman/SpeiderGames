@@ -14,18 +14,21 @@ public class GameController : Controller
         string dbName = _configuration["DbName"];
         _dbContext = new MongoDbContext(_configuration.GetConnectionString("MongoDB"),  dbName);
     }
-
+    
     [HttpPost]
-    public ActionResult CreateGame(GameViewModel game)
+    public ActionResult CreateGame(Game game)
     {
         try
         {
-            // You can add validation logic here
+            // Initialize the Posts and Teams lists
+            var newGame = new Game
+            {
+                GameName = game.GameName,
+                NumberOfPosts = game.NumberOfPosts,
+                NumberOfTeams = game.NumberOfTeams,
+            };
             
-            // Insert the game into the MongoDB collection
-            _dbContext.Games.InsertOne(game);
-
-            return RedirectToAction("Index", "CreateGamePage"); // Redirect to the home page or any other page
+            return View("/Views/Pages/CreateTeamsAndPostsPage.cshtml", newGame);
         }
         catch (Exception ex)
         {

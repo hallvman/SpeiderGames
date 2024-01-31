@@ -12,5 +12,5 @@ public class MongoDbContext
         _database = client.GetDatabase(databaseName);
     }
 
-    public IMongoCollection<GameViewModel> Games => _database.GetCollection<GameViewModel>("Games");
+    public IMongoCollection<Game> Games => _database.GetCollection<Game>("Games");
 }

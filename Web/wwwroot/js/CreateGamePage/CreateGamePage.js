@@ -35,9 +35,9 @@ function createTextboxes() {
     }
 
     // Redirect to the admin page only if the button was clicked
-    nextButton.addEventListener('click', function() {
-        window.location.href = '/AdminPage';  // Update this URL with the actual URL of your admin page
-    });
+    //nextButton.addEventListener('click', function() {
+      //  window.location.href = '/AdminPage';  // Update this URL with the actual URL of your admin page
+    //});
 }
 
 function updateSubmitButton() {

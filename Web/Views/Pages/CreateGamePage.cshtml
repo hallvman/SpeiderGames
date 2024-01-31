@@ -1,7 +1,8 @@
 ﻿@{
     ViewData["title"] = "Lag konkurranse";
 }
-@model GameViewModel
+@model Game
+
 <head>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/creategamepage/site.css" asp-append-version="true" />
@@ -10,35 +11,25 @@
 <div>
     <div class="pageTitle">
         <h3>
-            Lage konkurranse eller quiz
+            Skirv navn og antall lag og poster
         </h3>
     </div>
     <div class="CreateGame">
         @using (Html.BeginForm("CreateGame", "Game", FormMethod.Post))
-            {
-                <label for="GameName">Navn:</label>
-                @Html.TextBoxFor(model => model.GameName, new { required = "required", onchange = "updateSubmitButton()" })
-    
-                <br />
-    
-                <label for="NumberOfTeams">Antall Lag:</label>
-                @Html.TextBoxFor(model => model.NumberOfTeams, new { type = "number", required = "required", onchange = "updateSubmitButton()" })
-                
-                <br />
-                
-                <label for="NumberOfPosts">Antall Poster:</label>
-                @Html.TextBoxFor(model => model.NumberOfPosts, new { type = "number", required = "required", onchange = "updateSubmitButton()" })
-    
-                <br />
-    
-                <div id="dynamicContainer">
-                    <!-- Textboxes for posts/questions will be dynamically added here -->
-                </div>
-    
-                <br />
-    
-                <input type="button" id="nextButton" value="Neste" onclick="createTextboxes()" disabled />
-            }
-        </div>
-    <script src="js/CreateGamePage/CreateGamePage.js"></script>
+        {
+            <label for="GameName">Game Name:</label>
+            @Html.TextBoxFor(model => model.GameName, new { required = "required" })
+            <br />
+        
+            <label for="NumberOfPosts">Number of Posts/Questions:</label>
+            @Html.TextBoxFor(model => model.NumberOfPosts, new { type = "number", required = "required" })
+            <br />
+        
+            <label for="NumberOfTeams">Number of Teams:</label>
+            @Html.TextBoxFor(model => model.NumberOfTeams, new { type = "number", required = "required" })
+            <br />
+            
+            <input type="submit" value="Neste" />
+        }
+    </div>
 </div>

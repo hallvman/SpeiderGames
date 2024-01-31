@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["title"] = "Lag konkurranse";
+}
+@model Game
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/creategamepage/site.css" asp-append-version="true" />
+</head>
+
+<div>
+    <div class="pageTitle">
+        <h3>
+            Skriv inn navn på lag og postene
+        </h3>
+    </div>
+    <div class="CreateGame">
+        @using (Html.BeginForm("CreateTeamAndPosts", "CreateTeamsAndPosts", FormMethod.Post))
+        {
+            @for (int i = 1; i <= Model.NumberOfPosts; i++)
+            {
+                <div>
+                    <label for="Posts[@i].Name">Post @i Name:</label>
+                    @Html.TextBoxFor(model => model.Posts[i].Name, new { required = "required" })
+                    <br />
+                </div>
+            }
+        
+            @for (int i = 1; i <= Model.NumberOfTeams; i++)
+            {
+                <div>
+                    <label for="Teams[@i].Name">Team @i Name:</label>
+                    @Html.TextBoxFor(model => model.Teams[i].Name, new { required = "required" })
+                    <br />
+                </div>
+            }
+        
+            <input type="submit" value="Create Game" />
+        }
+    </div>
+</div>
