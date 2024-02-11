@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Rd5NHMzBpEiBvrP86G+kGCfRFPc2TeC6C8UpJMEbtJ4=",
+  "Hash": "Ydwq1x5oqo0ziJg/4ZOkb44RhtZPLfBVb6bIvxnwWkI=",
   "Source": "Web",
   "BasePath": "_content/Web",
   "Mode": "Default",
@@ -110,6 +110,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/css/site.css"
+    },
+    {
+      "Identity": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/wwwroot/css/successpage/site.css",
+      "SourceId": "Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/wwwroot/",
+      "BasePath": "_content/Web",
+      "RelativePath": "css/successpage/site.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/successpage/site.css"
     },
     {
       "Identity": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/wwwroot/css/takepartpage/site.css",

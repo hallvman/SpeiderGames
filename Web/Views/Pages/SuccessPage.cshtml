@@ -1,15 +1,29 @@
 ﻿@{
-    ViewData["title"] = "Gratz!!!";
+    ViewData["title"] = "Konkurranse laget!";
 }
+ 
+@model Game
+
 <head>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/successpage/site.css" asp-append-version="true" />
 </head>
 <div>
     <div class="pageTitle">
         <h3>
-            Grattis! Du klarte å lage en konkurranse
+            Konkurranse laget!
         </h3>
-        
-        Gå til administrasjonssiden og skriv inn navn på konkurransen for å se: <a class="privacy-button" asp-controller="AdminPage">Admin</a>
+    </div>
+    <div class="pageSection">
+        Gå til administrasjonssiden og skriv inn navn på konkurransen for å se poeng: <a class="privacy-button" asp-controller="AdminPage">Admin</a>
+    </div>
+    <div class="pageSection">
+        Oversikten over konkurransen:
+        <br/>
+        Name: @Model.GameName
+        <br/>
+        Code: @Model.GameCode
+        <br/>
+        --- Husk Koden ---
     </div>
 </div>

@@ -11,9 +11,11 @@ public class CreateTeamsAndPostsController : Controller
     public CreateTeamsAndPostsController(IConfiguration configuration)
     {
         _configuration = configuration;
-        string dbName = _configuration["DbName"];
-        _dbContext = new MongoDbContext(_configuration.GetConnectionString("MongoDB"),  dbName);
+        string dbName = _configuration["MongoDBSettings:DatabaseName"];
+        string connectionString = _configuration["MongoDBSettings:ConnectionString"];
+        _dbContext = new MongoDbContext(connectionString, dbName);
     }
+
     [HttpGet]
     public ActionResult CreateTeamAndPostsPage()
     {
@@ -43,33 +45,36 @@ public class CreateTeamsAndPostsController : Controller
     }
 
     [HttpPost]
-    public ActionResult CreateTeamAndPosts()
+    public ActionResult CreateTeamAndPosts(List<Team> Teams)
     {
-        // Your logic for creating teams and posts.
-        // Insert the game into the MongoDB collection
-        
         string gameName = TempData["GameName"] as string;
         int numberOfPosts = Convert.ToInt32(TempData["NumberOfPosts"]);
         int numberOfTeams = Convert.ToInt32(TempData["NumberOfTeams"]);
-        string teamsJson = TempData["Teams"] as string;
         string postsJson = TempData["Posts"] as string;
+        string gameCode = TempData["GameCode"] as string; 
         
-        // Deserialize JSON to List<Team>
-        List<Team> teams = JsonConvert.DeserializeObject<List<Team>>(teamsJson) ?? new List<Team>();
         List<Post> posts = JsonConvert.DeserializeObject<List<Post>>(postsJson) ?? new List<Post>();
+        
+        List<Team> tempTeam = new List<Team>();
+        
+        foreach (var team in Teams)
+        {
+            var tempName = team.TeamName;
+            tempTeam.Add(new Team { TeamName = tempName, Posts = posts});
+        }
 
-        // Use the values as needed
         var model = new Game
         {
             GameName = gameName,
+            GameCode = gameCode,
             NumberOfTeams = numberOfTeams,
             NumberOfPosts = numberOfPosts,
-            Teams = teams,
+            Teams = tempTeam,
             Posts = posts
         };
         
         _dbContext.Games.InsertOne(model);
 
-        return RedirectToAction("Index", "SuccessPage"); // Redirect to the home page or any other page
+        return RedirectToAction("Index", "SuccessPage", model); // Redirect to the home page or any other page
     }
 }

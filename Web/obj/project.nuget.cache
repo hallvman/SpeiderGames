@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Q9PocoQHO6XpeRlgFNvdxy2NI5w30ObVrdBdtXm7oWkH1Fkwc4vfEBv0sBnq3A1K9qY7SemC/8dt65VQtSHo6w==",
+  "dgSpecHash": "JUYhdiKbQdiZud3ZoJZc5TJP9Z3l75Dv8rzFdBP3lQRIAwUhTe4j2/owxAIDAJqdgDXL9OcMa/N/5m4wZ/K1OQ==",
   "success": true,
   "projectFilePath": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Web.csproj",
   "expectedPackageFiles": [
@@ -9,7 +9,9 @@
     "/Users/hallvardmunkasandersen/.nuget/packages/dnsclient/1.6.1/dnsclient.1.6.1.nupkg.sha512",
     "/Users/hallvardmunkasandersen/.nuget/packages/microsoft.extensions.configuration/8.0.0/microsoft.extensions.configuration.8.0.0.nupkg.sha512",
     "/Users/hallvardmunkasandersen/.nuget/packages/microsoft.extensions.configuration.abstractions/8.0.0/microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
+    "/Users/hallvardmunkasandersen/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "/Users/hallvardmunkasandersen/.nuget/packages/microsoft.extensions.logging.abstractions/2.0.0/microsoft.extensions.logging.abstractions.2.0.0.nupkg.sha512",
+    "/Users/hallvardmunkasandersen/.nuget/packages/microsoft.extensions.options/8.0.1/microsoft.extensions.options.8.0.1.nupkg.sha512",
     "/Users/hallvardmunkasandersen/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "/Users/hallvardmunkasandersen/.nuget/packages/microsoft.netcore.platforms/5.0.0/microsoft.netcore.platforms.5.0.0.nupkg.sha512",
     "/Users/hallvardmunkasandersen/.nuget/packages/microsoft.win32.registry/5.0.0/microsoft.win32.registry.5.0.0.nupkg.sha512",

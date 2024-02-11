@@ -1,0 +1,23 @@
+@{
+    ViewData["title"] = "Endring gjennomført";
+}
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/successpage/site.css" asp-append-version="true" />
+</head>
+
+@model UpdatePointsViewModel
+
+<div>
+    <div class="pageTitleSuccess">
+        <h3>
+            Endre poeng i konkurranse: @Model.GameName
+        </h3>
+        <h5>Lag: @Model.TeamName</h5>
+        <h5>Post: @Model.PostName</h5>
+        <h5>Poeng: @Model.Points</h5>
+    </div>
+    <div class="pageSection">
+        <p>Gå til administrasjonssiden og skriv inn navn på konkurransen for å se: <a class="privacy-button" asp-controller="AdminPage" asp-action="Index"> Admin</a></p>
+    </div>
+</div>

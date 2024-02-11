@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["title"] = "Postansvarlig";
+}
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/postcoordinatorpage/site.css" asp-append-version="true" />
+</head>
+
+
+@model UpdatePointsViewModel
+
+<div>
+    <div class="pageTitle">
+        <h3>
+            For Postansvarlig
+        </h3>
+        <div class="PostCoordinatorSearch">
+            <form asp-action="SelectGame" asp-controller="PostCoordinatorPage" method="post">
+                <label for="SelectedGame">Velg konkurranse:</label>
+                <select asp-for="GameName" asp-items="@Model.Games"></select>
+                <label for="GameCode">Skriv inn coden på konkurransen:</label>
+                <input type="text" id="GameCode" name="GameCode" required/>
+                <br/>
+                <button class="SubmitButton" type="submit">Neste</button>
+            </form>
+        </div>
+    </div>
+</div>

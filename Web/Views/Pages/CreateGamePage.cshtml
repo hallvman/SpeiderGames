@@ -11,25 +11,28 @@
 <div>
     <div class="pageTitle">
         <h3>
-            Skirv navn og antall lag og poster
+            Skriv navn, antall lag og poster
         </h3>
     </div>
     <div class="CreateGame">
         @using (Html.BeginForm("CreateGame", "Game", FormMethod.Post))
         {
-            <label for="GameName">Game Name:</label>
+            <label for="GameName">Navn på Konkurransen:</label>
+            <br />
             @Html.TextBoxFor(model => model.GameName, new { required = "required" })
             <br />
-        
-            <label for="NumberOfPosts">Number of Posts/Questions:</label>
-            @Html.TextBoxFor(model => model.NumberOfPosts, new { type = "number", required = "required" })
+            
+            <label for="NumberOfTeams">Antall Lag:</label>
             <br />
-        
-            <label for="NumberOfTeams">Number of Teams:</label>
             @Html.TextBoxFor(model => model.NumberOfTeams, new { type = "number", required = "required" })
             <br />
+        
+            <label for="NumberOfPosts">Antall Post:</label>
+            <br />
+            @Html.TextBoxFor(model => model.NumberOfPosts, new { type = "number", required = "required" })
+            <br />
             
-            <input type="submit" value="Neste" />
+            <input class="createInput" type="submit" value="Neste" />
         }
     </div>
 </div>

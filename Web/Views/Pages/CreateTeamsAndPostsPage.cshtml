@@ -9,33 +9,25 @@
 </head>
 
 <div>
-    <div class="pageTitle">
-        <h3>
-            Skriv inn navn på lag og postene
-        </h3>
+    <div class="CreateGameTitle">
+        <h1>Navn: @Model.GameName</h1>
+        <h3>Skriv inn navn på lag</h3>
+        <p>X er antall poster, så er navnet på postene: PostX</p>
     </div>
     <div class="CreateGame">
         @using (Html.BeginForm("CreateTeamAndPosts", "CreateTeamsAndPosts", FormMethod.Post))
         {
-            @for (int i = 1; i <= Model.NumberOfPosts; i++)
+            @for (int i = 0; i < Model.NumberOfTeams; i++)
             {
                 <div>
-                    <label for="Posts[@i].Name">Post @i Name:</label>
-                    @Html.TextBoxFor(model => model.Posts[i].Name, new { required = "required" })
+                    <label for="Teams[@i].TeamName">Lag @(i + 1) Navn:</label>
+                    <br/>
+                    <input type="text" name="Teams[@i].TeamName" required />
                     <br />
                 </div>
             }
         
-            @for (int i = 1; i <= Model.NumberOfTeams; i++)
-            {
-                <div>
-                    <label for="Teams[@i].Name">Team @i Name:</label>
-                    @Html.TextBoxFor(model => model.Teams[i].Name, new { required = "required" })
-                    <br />
-                </div>
-            }
-        
-            <input type="submit" value="Create Game" />
+            <input class="createInput" type="submit" value="Lag Konkurranse" />
         }
     </div>
 </div>

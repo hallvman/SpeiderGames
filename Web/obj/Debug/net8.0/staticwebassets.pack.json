@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets/css/site.css"
     },
     {
+      "Id": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/wwwroot/css/successpage/site.css",
+      "PackagePath": "staticwebassets/css/successpage/site.css"
+    },
+    {
       "Id": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/wwwroot/css/takepartpage/site.css",
       "PackagePath": "staticwebassets/css/takepartpage/site.css"
     },

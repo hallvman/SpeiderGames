@@ -1,0 +1,37 @@
+@{
+    ViewData["title"] = "Oppdatert poeng";
+}
+
+
+@model UpdatePointsViewModel
+
+<head>
+    <link rel="stylesheet" href="~/css/postcoordinatorpage/site.css" asp-append-version="true" />
+</head>
+
+<div>
+    <div class="title">
+        <h2>Update Points</h2>
+    </div>
+
+    <div class="UpdatePoints">
+        
+        <form asp-action="UpdatePoints" asp-controller="PostCoordinatorPage" method="post">
+            <input type="hidden" asp-for="GameName" />
+            
+            <div class="form-group">
+                <label for="Teams">Velg Lag:</label>
+                <select asp-for="TeamName" asp-items="@Model.Teams"></select>
+            </div>
+            <div class="form-group">
+                <label for="Posts">Velg Post:</label>
+                <select asp-for="PostName" asp-items="@Model.Posts"></select>
+            </div>
+            <div class="form-group">
+                <label for="Points">Poeng:</label>
+                <input type="number" asp-for="Points" required>
+            </div>
+            <button class="SubmitButton" type="submit">Submit</button>
+        </form>
+    </div>
+</div>

@@ -14,15 +14,15 @@ namespace SpeiderGames.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(Game model)
         {
-            return View("/Views/Pages/SuccessPage.cshtml");
+            return View("/Views/Pages/SuccessPage.cshtml", model);
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        
+        [HttpGet]
+        public IActionResult UpdatePoints(UpdatePointsViewModel model)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View("/Views/Pages/SuccessPageUpdatePoints.cshtml", model);
         }
     }
 }

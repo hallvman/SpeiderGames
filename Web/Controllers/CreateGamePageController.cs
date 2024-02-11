@@ -18,11 +18,5 @@ namespace SpeiderGames.Controllers
         {
             return View("/Views/Pages/CreateGamePage.cshtml");
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

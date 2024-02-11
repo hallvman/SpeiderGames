@@ -12,8 +12,9 @@ public class GameController : Controller
     public GameController(IConfiguration configuration)
     {
         _configuration = configuration;
-        string dbName = _configuration["DbName"];
-        _dbContext = new MongoDbContext(_configuration.GetConnectionString("MongoDB"),  dbName);
+        string dbName = _configuration["MongoDBSettings:DatabaseName"];
+        string connectionString = _configuration["MongoDBSettings:ConnectionString"];
+        _dbContext = new MongoDbContext(connectionString, dbName);
     }
     
     [HttpPost]
@@ -24,18 +25,21 @@ public class GameController : Controller
             TempData["GameName"] = game.GameName;
             TempData["NumberOfTeams"] = game.NumberOfTeams;
             TempData["NumberOfPosts"] = game.NumberOfPosts;
+
+            string gameCode = GenerateGameCode();
+            
             // Create a list of teams
             List<Team> teams = new List<Team>();
             List<Post> posts = new List<Post>();
-
-            for (int i = 1; i <= game.NumberOfTeams; i++)
-            {
-                teams.Add(new Team { Name = $"Team{i}" });
-            }
             
             for (int i = 1; i <= game.NumberOfPosts; i++)
             {
-                posts.Add(new Post { Name = $"Post{i}" });
+                posts.Add(new Post { PostName = $"Post{i}", PostPoints = 0});
+            }
+
+            for (int i = 1; i <= game.NumberOfTeams; i++)
+            {
+                teams.Add(new Team { TeamName = $"Team{i}", Posts = posts});
             }
             
             // Serialize teams to JSON
@@ -44,12 +48,14 @@ public class GameController : Controller
 
             TempData["Teams"] = teamsJson;
             TempData["Posts"] = postsJson;
+            TempData["GameCode"] = gameCode;
             // Initialize the Posts and Teams list
             var newGame = new Game
             {
                 GameName = game.GameName,
                 NumberOfPosts = game.NumberOfPosts,
                 NumberOfTeams = game.NumberOfTeams,
+                GameCode = gameCode
             };
             
             return View("/Views/Pages/CreateTeamsAndPostsPage.cshtml", newGame);
@@ -59,5 +65,26 @@ public class GameController : Controller
             // Handle exceptions, log errors, etc.
             return View("Error");
         }
+    }
+    
+    public static string GenerateGameCode()
+    {
+        Random random = new Random();
+        string characters = "ABCDEFGHIJKLMNPQRSTUVWXYZ"; // Characters to choose from
+        string numbers = "123456789"; // Numbers to choose from
+
+        // Generate 3 random letters
+        string randomCharacters = new string(Enumerable.Repeat(characters, 3)
+            .Select(s => s[random.Next(s.Length)]).ToArray());
+
+        // Generate 3 random numbers
+        string randomNumbers = new string(Enumerable.Repeat(numbers, 3)
+            .Select(s => s[random.Next(s.Length)]).ToArray());
+
+        // Combine and shuffle the letters and numbers to ensure the code is mixed
+        string gameCode = new string((randomCharacters + randomNumbers).ToCharArray()
+            .OrderBy(s => random.Next()).ToArray());
+
+        return gameCode;
     }
 }
