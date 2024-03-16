@@ -15,7 +15,7 @@
         <p>X er antall poster, så er navnet på postene: PostX</p>
     </div>
     <div class="CreateGame">
-        @using (Html.BeginForm("CreateTeamAndPosts", "CreateTeamsAndPosts", FormMethod.Post))
+        @using (Html.BeginForm("CreateTeamAndPosts", "Game", FormMethod.Post))
         {
             @for (int i = 0; i < Model.NumberOfTeams; i++)
             {

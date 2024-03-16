@@ -61,49 +61,59 @@
         e.preventDefault();
     });
     
-    // Add form submission event listener to validate phone numbers
-    document.getElementById('createGameForm').addEventListener('submit', function(e) {
-    var phoneNumber1 = document.getElementById('phoneNumber1').value;
-    var phoneNumber2 = document.getElementById('phoneNumber2').value;
+    document.addEventListener('DOMContentLoaded', function() {
+        // Wait for the DOM to be fully loaded before attaching the event listener
+        document.getElementById('createGameForm').addEventListener('submit', function(e) {
+            var phoneNumber1 = document.getElementById('phoneNumber1').value;
+            var phoneNumber2 = document.getElementById('phoneNumber2').value;
     
-        // Check if phone numbers match
-        if(phoneNumber1 !== phoneNumber2) {
-            // Prevent form submission
-            e.preventDefault();
-            // Alert the user
-            alert('Telefonnumrene matcher ikke. Vennligst bekreft at du har skrevet inn riktig telefonnummer.');
-        }
+            // Check if phone numbers match
+            if(phoneNumber1 !== phoneNumber2) {
+                // Prevent form submission
+                e.preventDefault();
+                // Alert the user that the phone numbers do not match
+                alert('Telefonnumrene matcher ikke. Vennligst bekreft at du har skrevet inn riktig telefonnummer.');
+            }
+        });
     });
     
     document.addEventListener("DOMContentLoaded", function() {
-            var number1 = document.querySelector("#phoneNumber1");
-            var iti = intlTelInput(number1, {
-                // any options here
-                onlyCountries: ['no'],
-                initialCountry: "auto",
-                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js" // only needed for formatting/placeholders/etc
-            });
-            var number2 = document.querySelector("#phoneNumber2");
-            intlTelInput(number2, {
-                // any options here
-                onlyCountries: ['no'],
-                initialCountry: "auto",
-                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js" // only needed for formatting/placeholders/etc
-            });
-            
-            var form = document.querySelector("#createGameForm");
-            form.addEventListener("submit", function(e) {
-                // Prevent the form from submitting
-                e.preventDefault();
-            
-                // Get the full phone number in international format
-                var fullNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
-                        
-                // Update the hidden input or the phone number input
-                document.querySelector("#fullPhoneNumber").value = fullNumber;
-            
-                // Now submit the form programmatically
-                form.submit();
-            });
+        var number1 = document.querySelector("#phoneNumber1");
+        var iti1 = intlTelInput(number1, {
+            onlyCountries: ['no'],
+            initialCountry: "no",
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
+    
+        var number2 = document.querySelector("#phoneNumber2");
+        var iti2 = intlTelInput(number2, {
+            onlyCountries: ['no'],
+            initialCountry: "no",
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
+    
+        var form = document.querySelector("#createGameForm");
+        form.addEventListener("submit", function(e) {
+            e.preventDefault(); // Prevent the form from submitting immediately
+    
+            // Validate both numbers
+            var isValidNumber1 = iti1.isValidNumber();
+            var isValidNumber2 = iti2.isValidNumber();
+    
+            if (!isValidNumber1 || !isValidNumber2) {
+                alert("Ett eller begge av nummerene er ikke godkjente. Skriv de inn igjen er du grei! :)");
+                return; // Stop here if any number is invalid
+            }
+    
+            // Get the full phone number in international format
+            var fullNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+            // Update the hidden input or the phone number input
+            document.querySelector("#fullPhoneNumber").value = fullNumber;
+    
+            // Programmatically submit the form now
+            // Note: This might lead to an infinite loop if not handled correctly because
+            // form.submit() triggers the submit event again. You might want to handle this differently.
+            form.submit();
+        });
     });
 </script>
