@@ -44,14 +44,17 @@
                 </table>
             </div>
             <div class="AdminButtons">
-                <form>
-                    <button class="AdminButton" asp-controller="AdminPage" asp-action="ChangeTeamName">Endre Navn på Lag</button>
+                <form asp-action="SeePostCodes" asp-controller="AdminPage">
+                    <input type="hidden" asp-for="GameName"/>
+                    <input type="hidden" asp-for="GameCode"/>
+                    <input type="hidden" asp-for="Posts"/>
+                    <button class="stylish-button">Post Koder</button>
                 </form>
                 <br/>
                 <form asp-action="ChangeTeamPoints" asp-controller="AdminPage" method="post">
                     <input type="hidden" asp-for="GameName"/>
                     <input type="hidden" asp-for="GameCode"/>
-                    <button type="submit" class="AdminButton">Endre Poeng</button>
+                    <button type="submit" class="stylish-button">Endre Poeng</button>
                 </form>
             </div>
         }

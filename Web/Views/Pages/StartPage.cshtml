@@ -7,22 +7,27 @@
 <div class="text-center">
     <img class="home-logo" src="~/logo.png" width="250" />
     <div class="main-buttons">
-        <button class="main-button">
-            <a class="container" asp-area="" asp-controller="CreateGamePage" asp-action="Index">
-                Lag en konkurranse
-            </a>
-        </button>
-        <!--
-        <button class="main-button">
-            <a class="container" asp-area="" asp-controller="TakePartPage" asp-action="Index">
-                Delta i quiz
-            </a>
-        </button>
-        -->
-        <button class="main-button">
-            <a class="container" asp-area="" asp-controller="PostCoordinatorPage" asp-action="Index">
-                Postansvarlig
-            </a>
-        </button>
+        <h1>Velkommen</h1>
+        <div class="dots-container">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+        <div class="button-container">
+            <button class="stylish-main-button">
+                <a class="container" asp-area="" asp-controller="CreateGamePage" asp-action="Index">
+                    <img src="plus.svg"/>
+                    <span>Lag en konkurranse</span>
+                </a>
+            </button>
+            <button class="stylish-main-button">
+                <a class="container" asp-area="" asp-controller="PostCoordinatorPage" asp-action="Index">
+                    <img src="flag.svg"/>
+                    <span>Postansvarlig</span>
+                </a>
+            </button>
+        </div>
     </div>
 </div>

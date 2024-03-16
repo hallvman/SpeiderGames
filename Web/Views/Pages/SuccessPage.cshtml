@@ -18,12 +18,13 @@
         Gå til administrasjonssiden og skriv inn navn på konkurransen for å se poeng: <a class="privacy-button" asp-controller="AdminPage">Admin</a>
     </div>
     <div class="pageSection">
-        Oversikten over konkurransen:
         <br/>
-        Name: @Model.GameName
+        Navn: @Model.GameName
         <br/>
-        Code: @Model.GameCode
+        Antall lag: @Model.NumberOfTeams
         <br/>
-        --- Husk Koden ---
+        Antall poster: @Model.NumberOfPosts
+        <br/>
+        Kode: Send på melding!
     </div>
 </div>

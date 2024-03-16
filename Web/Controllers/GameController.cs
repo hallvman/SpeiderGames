@@ -1,7 +1,6 @@
 ﻿// GameController.cs
 using Microsoft.AspNetCore.Mvc;
 using SpeiderGames.Models;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 public class GameController : Controller
@@ -25,16 +24,18 @@ public class GameController : Controller
             TempData["GameName"] = game.GameName;
             TempData["NumberOfTeams"] = game.NumberOfTeams;
             TempData["NumberOfPosts"] = game.NumberOfPosts;
-
+            TempData["FullPhoneNumber"] = game.FullPhoneNumber;
+            
             string gameCode = GenerateGameCode();
             
             // Create a list of teams
             List<Team> teams = new List<Team>();
-            List<Post> posts = new List<Post>();
+            List<Post> posts = new List<Post>();    
             
             for (int i = 1; i <= game.NumberOfPosts; i++)
             {
-                posts.Add(new Post { PostName = $"Post{i}", PostPoints = 0});
+                string postPin = GeneratePostPin();
+                posts.Add(new Post { PostName = $"Post{i}", PostPin = postPin, PostPoints = 0});
             }
 
             for (int i = 1; i <= game.NumberOfTeams; i++)
@@ -53,6 +54,7 @@ public class GameController : Controller
             var newGame = new Game
             {
                 GameName = game.GameName,
+                FullPhoneNumber = game.FullPhoneNumber,
                 NumberOfPosts = game.NumberOfPosts,
                 NumberOfTeams = game.NumberOfTeams,
                 GameCode = gameCode
@@ -86,5 +88,20 @@ public class GameController : Controller
             .OrderBy(s => random.Next()).ToArray());
 
         return gameCode;
+    }
+    public static string GeneratePostPin()
+    {
+        Random random = new Random();
+        string numbers = "0123456789";
+
+        // Generate 4 random numbers
+        string randomNumbers = new string(Enumerable.Repeat(numbers, 4)
+            .Select(s => s[random.Next(s.Length)]).ToArray());
+
+        // Combine and shuffle the letters and numbers to ensure the code is mixed
+        string postPin = new string((randomNumbers).ToCharArray()
+            .OrderBy(s => random.Next()).ToArray());
+
+        return postPin;
     }
 }

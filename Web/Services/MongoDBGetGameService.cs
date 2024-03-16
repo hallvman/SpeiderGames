@@ -5,13 +5,13 @@ using SpeiderGames.Models;
 
 public interface IGameService
 {
-    Game GetGameByName(string gameId);
-    bool UpdatePoints(string gameName, string teamName, string postName, int points);
+    Game GetGameByGameCode(string gameCode);
+    bool UpdatePoints(string gameName, string teamName, string postName, string postPin, int points);
     List<Team> GetTeamsForGame(string selectedGame);
     List<Post> GetPostsForGame(string selectedGame);
 
     List<Game> GetGames();
-    bool ValidateGameCode(string selectedGame, string gameCode);
+    bool ValidateGameCode(string gameCode);
 }
 
 public class MongoDBGetGameService : IGameService
@@ -50,9 +50,9 @@ public class MongoDBGetGameService : IGameService
         return posts ?? new List<Post>();
     }
 
-    public Game GetGameByName(string gameName)
+    public Game GetGameByGameCode(string gameCode)
     {
-        var filter = Builders<Game>.Filter.Eq(g => g.GameName, gameName);
+        var filter = Builders<Game>.Filter.Eq(g => g.GameCode, gameCode);
         var game = _gameCollection.Find(filter).FirstOrDefault();
 
         if (game == null)
@@ -78,7 +78,7 @@ public class MongoDBGetGameService : IGameService
         }
     }
     
-    public bool UpdatePoints(string gameName, string teamName, string postName, int points)
+    public bool UpdatePoints(string gameName, string teamName, string postName, string postPin, int points)
     {
         var index = 0;
 
@@ -90,7 +90,7 @@ public class MongoDBGetGameService : IGameService
         var filter = Builders<Game>.Filter.And(
             Builders<Game>.Filter.Eq(g => g.GameName, gameName),
             Builders<Game>.Filter.ElemMatch(g => g.Teams, team => team.TeamName == teamName),
-            Builders<Game>.Filter.ElemMatch(g => g.Teams[index-1].Posts, post => post.PostName == postName)
+            Builders<Game>.Filter.ElemMatch(g => g.Teams[index-1].Posts, post => post.PostName == postName && post.PostPin == postPin)
         );
 
         var update = Builders<Game>.Update.Set($"Teams.$[team].Posts.$[post].PostPoints", points);
@@ -108,10 +108,10 @@ public class MongoDBGetGameService : IGameService
         return updateResult.ModifiedCount > 0;
     }
     
-    public bool ValidateGameCode(string selectedGame, string gameCode)
+    public bool ValidateGameCode(string gameCode)
     {
         // Retrieve the game based on selectedGame (ID or name)
-        var game = GetGameByName(selectedGame);// logic to get game from database
+        var game = GetGameByGameCode(gameCode);// logic to get game from database
 
         // Check if the game's code matches the provided code
         return game != null && game.GameCode.Equals(gameCode, StringComparison.OrdinalIgnoreCase);

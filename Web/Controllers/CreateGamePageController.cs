@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SpeiderGames.Models;
-using System.Diagnostics;
 
 namespace SpeiderGames.Controllers
 {

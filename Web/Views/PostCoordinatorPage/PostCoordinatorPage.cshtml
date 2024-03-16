@@ -18,10 +18,8 @@
             <form asp-action="SelectGame" asp-controller="PostCoordinatorPage" method="post">
                 <label for="SelectedGame">Velg konkurranse:</label>
                 <select asp-for="GameName" asp-items="@Model.Games"></select>
-                <label for="GameCode">Skriv inn coden på konkurransen:</label>
-                <input type="text" id="GameCode" name="GameCode" required/>
                 <br/>
-                <button class="SubmitButton" type="submit">Neste</button>
+                <button class="stylish-button" type="submit">Neste</button>
             </form>
         </div>
     </div>

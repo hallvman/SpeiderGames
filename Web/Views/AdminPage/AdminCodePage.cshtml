@@ -1,0 +1,37 @@
+@{
+    ViewData["title"] = "Admin";
+}
+
+@model Game
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/css/adminpage/site.css" asp-append-version="true" />
+</head>
+
+<div>
+    <div class="gameDetailsTitle">
+        <h3>Konkurranse: @Model.GameName</h3>
+    </div>
+    <div class="gameDetails">
+        @foreach (var posts in Model.Posts)
+        {
+            <table>
+                <tr>
+                    <th>Post Name</th>
+                    <th>Postcode</th>
+                </tr>
+                <tr>
+                    <td>@posts.PostName</td>
+                    <td>@posts.PostPin</td>
+                </tr>
+            </table>
+        }
+    </div>
+    <form asp-action="Index" asp-controller="AdminPage" method="post">
+        <input type="hidden" asp-for="GameName"/>
+        <input type="hidden" asp-for="GameCode"/>
+        <button type="submit" class="stylish-button">Tilbake</button>
+        </form>
+</div>

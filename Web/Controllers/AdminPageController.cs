@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SpeiderGames.Models;
-using System.Diagnostics;
 
 namespace SpeiderGames.Controllers
 {
@@ -23,14 +22,13 @@ namespace SpeiderGames.Controllers
         }
         
         [HttpPost]
-        public IActionResult Index(string gameName, string gameCode)
+        public IActionResult Index(string gameCode)
         {
-            var game = _gameService.GetGameByName(gameName);
-            bool isValidGamecode = _gameService.ValidateGameCode(gameName, gameCode);
+            var game = _gameService.GetGameByGameCode(gameCode);
+            bool isValidGamecode = _gameService.ValidateGameCode(gameCode);
 
             var validModel = new RequestErrorModel()
             {
-                GameName = gameName,
                 GameCode = gameCode
             };
             
@@ -40,6 +38,20 @@ namespace SpeiderGames.Controllers
             }
 
             return View("/Views/AdminPage/Index.cshtml", game);
+        }
+
+        [HttpPost]
+        public ActionResult SeePostCodes(Game game)
+        {
+            var postList = _gameService.GetPostsForGame(game.GameName);
+            
+            var model = new Game
+            {
+                GameName = game.GameName,
+                Posts = postList
+            };
+            
+            return View("AdminCodePage", model);
         }
 
         [HttpPost]
@@ -53,7 +65,7 @@ namespace SpeiderGames.Controllers
         [HttpPost]
         public ActionResult ChangeTeamPoints(UpdatePointsViewModel model)
         {
-            bool isValidGamecode = _gameService.ValidateGameCode(model.GameName, model.GameCode);
+            bool isValidGamecode = _gameService.ValidateGameCode(model.GameCode);
 
             var validModel = new RequestErrorModel()
             {
@@ -76,12 +88,5 @@ namespace SpeiderGames.Controllers
 
             return View("../PostCoordinatorPage/UpdatePoints", model);
         }
-        /*
-        [HttpPost]
-        public ActionResult GetGameCode(string GameName)
-        {
-
-            return View("");
-        }*/
     }
 }

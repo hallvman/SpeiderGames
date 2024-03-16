@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SpeiderGames.Models;
 using Newtonsoft.Json;
-using Microsoft.Extensions.Configuration;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 public class CreateTeamsAndPostsController : Controller
 {
@@ -51,7 +53,8 @@ public class CreateTeamsAndPostsController : Controller
         int numberOfPosts = Convert.ToInt32(TempData["NumberOfPosts"]);
         int numberOfTeams = Convert.ToInt32(TempData["NumberOfTeams"]);
         string postsJson = TempData["Posts"] as string;
-        string gameCode = TempData["GameCode"] as string; 
+        string gameCode = TempData["GameCode"] as string;
+        string fullPhoneNumber = TempData["FullPhoneNumber"] as string;
         
         List<Post> posts = JsonConvert.DeserializeObject<List<Post>>(postsJson) ?? new List<Post>();
         
@@ -66,15 +69,44 @@ public class CreateTeamsAndPostsController : Controller
         var model = new Game
         {
             GameName = gameName,
+            FullPhoneNumber = fullPhoneNumber,
             GameCode = gameCode,
             NumberOfTeams = numberOfTeams,
             NumberOfPosts = numberOfPosts,
             Teams = tempTeam,
             Posts = posts
         };
-        
-        _dbContext.Games.InsertOne(model);
+
+        try
+        {
+            SendGameCodeSMS(gameName, fullPhoneNumber, gameCode);
+            _dbContext.Games.InsertOne(model);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
 
         return RedirectToAction("Index", "SuccessPage", model); // Redirect to the home page or any other page
+    }
+    
+    public void SendGameCodeSMS(string gameName, string toPhoneNumber, string gameCode)
+    {
+        string accountSid = _configuration["Twilio:AccountSID"];
+        string authToken = _configuration["Twilio:Authtoken"];
+
+        string phoneNumber = _configuration["Twilio:PhoneNumber"];
+        
+        // Initialize Twilio client
+        TwilioClient.Init(accountSid, authToken);
+
+        var message = MessageResource.Create(
+            body: $"Navn: {gameName} & Kode: {gameCode}",
+            from: new PhoneNumber(phoneNumber),
+            to: new PhoneNumber(toPhoneNumber)
+        );
+
+        Console.WriteLine(message.Sid); // Optionally log the message SID
     }
 }

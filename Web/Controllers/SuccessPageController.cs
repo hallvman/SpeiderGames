@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SpeiderGames.Models;
-using System.Diagnostics;
 
 namespace SpeiderGames.Controllers
 {
     public class SuccessPageController : Controller
     {
-        private readonly ILogger<TakePartPageController> _logger;
+        private readonly ILogger<SuccessPageController> _logger;
 
-        public SuccessPageController(ILogger<TakePartPageController> logger)
+        public SuccessPageController(ILogger<SuccessPageController> logger)
         {
             _logger = logger;
         }

@@ -2,20 +2,19 @@
     ViewData["title"] = "Oppdatert poeng";
 }
 
-
 @model UpdatePointsViewModel
 
 <head>
-    <link rel="stylesheet" href="~/css/postcoordinatorpage/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/postcoordinatorpage/site.css" asp-append-version="true"/>
 </head>
 
 <div>
     <div class="title">
-        <h2>Update Points</h2>
+        <h2>Oppdater Poeng</h2>
     </div>
 
     <div class="UpdatePoints">
-        
         <form asp-action="UpdatePoints" asp-controller="PostCoordinatorPage" method="post">
             <input type="hidden" asp-for="GameName" />
             
@@ -28,10 +27,14 @@
                 <select asp-for="PostName" asp-items="@Model.Posts"></select>
             </div>
             <div class="form-group">
+                <label for="PostPin">Pin:</label>
+                <input type="number" asp-for="PostPin" required>
+            </div>
+            <div class="form-group">
                 <label for="Points">Poeng:</label>
                 <input type="number" asp-for="Points" required>
             </div>
-            <button class="SubmitButton" type="submit">Submit</button>
+            <button class="stylish-button" type="submit">Send Inn</button>
         </form>
     </div>
 </div>

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SpeiderGames.Models;
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SpeiderGames.Controllers
@@ -44,22 +43,15 @@ namespace SpeiderGames.Controllers
         [HttpPost]
         public ActionResult SelectGame(UpdatePointsViewModel model)
         {
-            bool isValidGamecode = _gameService.ValidateGameCode(model.GameName, model.GameCode);
-
-            var validModel = new RequestErrorModel()
-            {
-                GameName = model.GameName,
-                GameCode = model.GameCode
-            };
-            
-            if (!isValidGamecode)
-            {
-                return View("Error_Request", validModel);
-            }
             // Perform any necessary logic based on the selected game
             // For example, you might want to fetch Teams and Posts for the selected game
             var teams = _gameService.GetTeamsForGame(model.GameName);
             var posts = _gameService.GetPostsForGame(model.GameName);
+            
+            // Setting the GameName as a cookie named "GameSelected"
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.Now.AddDays(30); // Set the cookie to expire in 30 days
+            Response.Cookies.Append("GameSelected", model.GameName, options);
             
             // This assumes that you have properties Teams and Posts in your UpdatePointsViewModel
             model.Teams = new SelectList(teams, "TeamName", "TeamName");
@@ -72,7 +64,7 @@ namespace SpeiderGames.Controllers
         [HttpPost]
         public ActionResult UpdatePoints(UpdatePointsViewModel model)
         {
-            var updated = _gameService.UpdatePoints(model.GameName, model.TeamName, model.PostName, model.Points);
+            var updated = _gameService.UpdatePoints(model.GameName, model.TeamName, model.PostName, model.PostPin, model.Points);
 
             if (updated)
             {

@@ -1,5 +1,3 @@
-
-
 using Microsoft.AspNetCore.Mvc;
 using SpeiderGames.Models;
 

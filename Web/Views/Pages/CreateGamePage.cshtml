@@ -6,6 +6,9 @@
 <head>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/creategamepage/site.css" asp-append-version="true" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 </head>
 
 <div>
@@ -15,11 +18,21 @@
         </h3>
     </div>
     <div class="CreateGame">
-        @using (Html.BeginForm("CreateGame", "Game", FormMethod.Post))
+        @using (Html.BeginForm("CreateGame", "Game", FormMethod.Post, new { id = "createGameForm" }))
         {
             <label for="GameName">Navn på Konkurransen:</label>
             <br />
             @Html.TextBoxFor(model => model.GameName, new { required = "required" })
+            <br />
+            
+            <label>Telefonnummer:</label>
+            <br /> 
+            @Html.TextBox("PhoneNumber", null, new { required = "required", id = "phoneNumber1", @class = "intl-tel-input" })
+            <br />
+            
+            <label>Bekreft Telefonnummer:</label> 
+            <br /> 
+            @Html.TextBox("PhoneNumberConfirm", null, new { required = "required", id = "phoneNumber2", @class = "intl-tel-input" })
             <br />
             
             <label for="NumberOfTeams">Antall Lag:</label>
@@ -32,7 +45,65 @@
             @Html.TextBoxFor(model => model.NumberOfPosts, new { type = "number", required = "required" })
             <br />
             
-            <input class="createInput" type="submit" value="Neste" />
+            @Html.HiddenFor(model => model.FullPhoneNumber, new { id = "fullPhoneNumber" })
+            
+            <input class="stylish-button" type="submit" value="Neste" />
         }
     </div>
 </div>
+
+<script>
+    // Disable paste on phone number fields
+    document.getElementById('phoneNumber1').addEventListener('paste', function(e) {
+        e.preventDefault();
+    });
+    document.getElementById('phoneNumber2').addEventListener('paste', function(e) {
+        e.preventDefault();
+    });
+    
+    // Add form submission event listener to validate phone numbers
+    document.getElementById('createGameForm').addEventListener('submit', function(e) {
+    var phoneNumber1 = document.getElementById('phoneNumber1').value;
+    var phoneNumber2 = document.getElementById('phoneNumber2').value;
+    
+        // Check if phone numbers match
+        if(phoneNumber1 !== phoneNumber2) {
+            // Prevent form submission
+            e.preventDefault();
+            // Alert the user
+            alert('Telefonnumrene matcher ikke. Vennligst bekreft at du har skrevet inn riktig telefonnummer.');
+        }
+    });
+    
+    document.addEventListener("DOMContentLoaded", function() {
+            var number1 = document.querySelector("#phoneNumber1");
+            var iti = intlTelInput(number1, {
+                // any options here
+                onlyCountries: ['no'],
+                initialCountry: "auto",
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js" // only needed for formatting/placeholders/etc
+            });
+            var number2 = document.querySelector("#phoneNumber2");
+            intlTelInput(number2, {
+                // any options here
+                onlyCountries: ['no'],
+                initialCountry: "auto",
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js" // only needed for formatting/placeholders/etc
+            });
+            
+            var form = document.querySelector("#createGameForm");
+            form.addEventListener("submit", function(e) {
+                // Prevent the form from submitting
+                e.preventDefault();
+            
+                // Get the full phone number in international format
+                var fullNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+                        
+                // Update the hidden input or the phone number input
+                document.querySelector("#fullPhoneNumber").value = fullNumber;
+            
+                // Now submit the form programmatically
+                form.submit();
+            });
+    });
+</script>
