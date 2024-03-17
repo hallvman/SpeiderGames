@@ -1,0 +1,68 @@
+.title{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.contente{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.PostCoordinatorSearch{
+    display: flex;
+    justify-content: center;
+}
+
+.SubmitButton{
+    margin-top: 10px;
+}
+
+.UpdatePoints{
+    display: flex;
+    justify-content: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, select {
+    width: 200px; 
+    height: 40px;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px; 
+}
+
+.stylish-button {
+    background-color: #66a457; /* Green background */
+    color: #fff; /* White text */
+    padding: 10px 20px; /* Top and bottom padding, Left and right padding */
+    font-size: 16px; /* Text size */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Hand cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for the hover effect */
+    text-align: center; /* Center the text inside the button */
+    display: inline-block; /* Allows the button to be sized according to its content */
+    text-decoration: none; /* Removes underline from links if you use <a> tag instead */
+    margin-top: 15px;
+}
+
+.stylish-button:hover {
+    background-color: #559d3d; /* Darker shade of green on hover */
+}

@@ -1,0 +1,99 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = SpeiderGames
+build_property.RootNamespace = SpeiderGames
+build_property.ProjectDir = /Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = /Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web
+build_property._RazorSourceGeneratorDebug = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/AdminPage/AdminCodePage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW5QYWdlL0FkbWluQ29kZVBhZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/AdminPage/AdminPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW5QYWdlL0FkbWluUGFnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/AdminPage/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW5QYWdlL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/Pages/CreateGamePage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZXMvQ3JlYXRlR2FtZVBhZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/Pages/CreateTeamsAndPostsPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZXMvQ3JlYXRlVGVhbXNBbmRQb3N0c1BhZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/Pages/PrivacyPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZXMvUHJpdmFjeVBhZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/Pages/StartPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZXMvU3RhcnRQYWdlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/Pages/SuccessPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZXMvU3VjY2Vzc1BhZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/Pages/SuccessPageUpdatePoints.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZXMvU3VjY2Vzc1BhZ2VVcGRhdGVQb2ludHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/PostCoordinatorPage/PostCoordinatorPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9zdENvb3JkaW5hdG9yUGFnZS9Qb3N0Q29vcmRpbmF0b3JQYWdlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/PostCoordinatorPage/UpdatePoints.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9zdENvb3JkaW5hdG9yUGFnZS9VcGRhdGVQb2ludHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/Shared/Error_Dev.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yX0Rldi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/Shared/Error_Request.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yX1JlcXVlc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/Shared/Layout/Footer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0xheW91dC9Gb290ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/Shared/Layout/Header.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0xheW91dC9IZWFkZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/Shared/Layout/_Root.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0xheW91dC9fUm9vdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
