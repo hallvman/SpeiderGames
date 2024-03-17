@@ -1,1 +1,1 @@
-web: dotnet speidergames.dll
+web: dotnet Web.dll
