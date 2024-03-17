@@ -33,6 +33,14 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/wwwroot/flag.svg",
+      "PackagePath": "staticwebassets/flag.svg"
+    },
+    {
+      "Id": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/wwwroot/home.svg",
+      "PackagePath": "staticwebassets/home.svg"
+    },
+    {
       "Id": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/wwwroot/js/CreateGamePage/CreateGamePage.js",
       "PackagePath": "staticwebassets/js/CreateGamePage/CreateGamePage.js"
     },
@@ -271,6 +279,18 @@
     {
       "Id": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/wwwroot/logo.png",
       "PackagePath": "staticwebassets/logo.png"
+    },
+    {
+      "Id": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/wwwroot/plus.svg",
+      "PackagePath": "staticwebassets/plus.svg"
+    },
+    {
+      "Id": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/wwwroot/settings.svg",
+      "PackagePath": "staticwebassets/settings.svg"
+    },
+    {
+      "Id": "/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/wwwroot/user.svg",
+      "PackagePath": "staticwebassets/user.svg"
     },
     {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.Web.Microsoft.AspNetCore.StaticWebAssets.props",
