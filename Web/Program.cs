@@ -8,8 +8,7 @@ var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Configuration.AddJsonFile($"appsettings.json", optional: false, reloadOnChange: true);
-builder.Configuration.AddJsonFile($"appsettings.{environment}.json", optional: false, reloadOnChange: true);
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.Configure<MongoDBSettingsModel>(builder.Configuration.GetSection("MongoDBSettings"));
