@@ -6,7 +6,6 @@ using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 
-
 public class GameController : Controller
 {
     private readonly MongoDbContext _dbContext;
