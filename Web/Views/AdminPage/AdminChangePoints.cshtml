@@ -1,0 +1,37 @@
+@{
+    ViewData["title"] = "Oppdatert poeng";
+}
+
+@model UpdatePointsViewModel
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/adminpage/site.css" asp-append-version="true"/>
+</head>
+
+<div>
+    <div class="title">
+        <h2>Oppdater Poeng</h2>
+    </div>
+
+    <div class="UpdatePoints">
+        <form asp-action="AdminUpdatePoints" asp-controller="AdminPage" method="post">
+            <input type="hidden" asp-for="GameCode" />
+            <input type="hidden" asp-for="GameName" />
+            
+            <div class="form-group">
+                <label for="Teams">Velg Lag:</label>
+                <select asp-for="TeamName" asp-items="@Model.Teams"></select>
+            </div>
+            <div class="form-group">
+                <label for="Posts">Velg Post:</label>
+                <select asp-for="PostName" asp-items="@Model.Posts"></select>
+            </div>
+            <div class="form-group">
+                <label for="Points">Poeng:</label>
+                <input type="number" asp-for="Points" required>
+            </div>
+            <button class="stylish-button" type="submit">Send Inn</button>
+        </form>
+    </div>
+</div>

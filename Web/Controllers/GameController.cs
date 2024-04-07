@@ -154,14 +154,19 @@ public class GameController : Controller
     {
         string accountSid = _configuration["Twilio:AccountSID"];
         string authToken = _configuration["Twilio:Authtoken"];
-
+        
         string phoneNumber = _configuration["Twilio:PhoneNumber"];
         
         // Initialize Twilio client
         TwilioClient.Init(accountSid, authToken);
 
+        string welcomeMessage = "Velkommen til Speidergames!";
+        string navn = $"Navn: {gameName}";
+        string kode = $"Kode: {gameCode}";
+        string fullMessage = welcomeMessage + "\n" + navn + "\n" + kode;
+        
         var message = MessageResource.Create(
-            body: $"Navn: {gameName} & Kode: {gameCode}",
+            body: fullMessage,
             from: new PhoneNumber(phoneNumber),
             to: new PhoneNumber(toPhoneNumber)
         );

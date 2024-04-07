@@ -27,10 +27,10 @@ table {
 }
 
 tr th, tr td {
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
     margin-right: 10px;
     border: 1px solid #000;
-    padding: 8px; 
+    padding: 8px;
 }
 
 .button-container {
@@ -57,4 +57,48 @@ tr th, tr td {
 
 .stylish-button:hover {
     background-color: #559d3d; /* Darker shade of green on hover */
+}
+.SubmitButton{
+    margin-top: 10px;
+}
+
+.UpdatePoints{
+    display: flex;
+    justify-content: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, select {
+    width: 200px;
+    height: 40px;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.title{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.contente{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
 }
