@@ -61,7 +61,6 @@ namespace SpeiderGames.Controllers
             return View("Error");
         }
         
-        
         [HttpPost]
         public ActionResult ChangeTeamPoints(UpdatePointsViewModel model)
         {
@@ -86,7 +85,25 @@ namespace SpeiderGames.Controllers
             model.Teams = new SelectList(teams, "TeamName", "TeamName");
             model.Posts = new SelectList(posts, "PostName", "PostName");
 
-            return View("../PostCoordinatorPage/UpdatePoints", model);
+            return View("AdminChangePoints", model);
+        }
+
+        [HttpPost]
+        public ActionResult AdminUpdatePoints(UpdatePointsViewModel model)
+        {
+            var postPin = _gameService.GetPostPinForPostName(model.GameCode, model.PostName);
+            
+            var updated = _gameService.UpdatePoints(model.GameName, model.TeamName, model.PostName, postPin, model.Points);
+
+            if (updated)
+            {
+                return RedirectToAction("UpdatePoints", "SuccessPage", model);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Unable to update points. Game, team, or post not found.");
+                return View("Error_Request");
+            }
         }
     }
 }

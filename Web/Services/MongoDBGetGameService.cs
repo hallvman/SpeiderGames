@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MongoDB.Driver;
 using MongoDB.Bson;
@@ -12,6 +13,8 @@ public interface IGameService
 
     List<Game> GetGames();
     bool ValidateGameCode(string gameCode);
+
+    string GetPostPinForPostName(string gameCode, string postName);
 }
 
 public class MongoDBGetGameService : IGameService
@@ -107,6 +110,38 @@ public class MongoDBGetGameService : IGameService
 
         return updateResult.ModifiedCount > 0;
     }
+
+    public string GetPostPinForPostName(string gameCode, string postName)
+    {
+        var pipeline = new BsonDocument[]
+        {
+            new BsonDocument("$match", new BsonDocument("GameCode", gameCode)),
+            new BsonDocument("$unwind", new BsonDocument("path", "$Teams")),
+            new BsonDocument("$unwind", new BsonDocument("path", "$Teams.Posts")),
+            new BsonDocument("$match", new BsonDocument("Teams.Posts.PostName", postName)),
+            new BsonDocument("$project", new BsonDocument
+            {
+                { "_id", 0 },
+                { "PostPin", "$Teams.Posts.PostPin" }
+            }),
+            new BsonDocument("$limit", 1)
+        };
+        
+        string postPin = null;
+    
+        // Using async/await pattern correctly
+        var cursor = _gamesCollection.AggregateAsync<BsonDocument>(pipeline).GetAwaiter().GetResult();
+        while (cursor.MoveNextAsync().GetAwaiter().GetResult()) // Synchronously waiting on the async operation
+        {
+            foreach (var doc in cursor.Current)
+            {
+                postPin = doc["PostPin"].AsString;
+                break; // Assuming uniqueness, breaking after the first match
+            }
+        }
+
+        return postPin;
+    }
     
     public bool ValidateGameCode(string gameCode)
     {
@@ -115,18 +150,5 @@ public class MongoDBGetGameService : IGameService
 
         // Check if the game's code matches the provided code
         return game != null && game.GameCode.Equals(gameCode, StringComparison.OrdinalIgnoreCase);
-    }
-    
-    public (List<Team> Teams, List<Post> Posts) GetTeamsAndPosts(string gameName)
-    {
-        var filter = Builders<Game>.Filter.Eq(g => g.GameName, gameName);
-        var game = _gameCollection.Find(filter).FirstOrDefault();
-
-        if (game != null)
-        {
-            return (game.Teams, game.Posts);
-        }
-
-        return (new List<Team>(), new List<Post>());
     }
 }

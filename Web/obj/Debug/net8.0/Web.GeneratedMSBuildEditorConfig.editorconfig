@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web
 build_property._RazorSourceGeneratorDebug = 
 
+[/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/AdminPage/AdminChangePoints.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW5QYWdlL0FkbWluQ2hhbmdlUG9pbnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/hallvardmunkasandersen/Documents/Source/SpeiderGames/Web/Views/AdminPage/AdminCodePage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW5QYWdlL0FkbWluQ29kZVBhZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

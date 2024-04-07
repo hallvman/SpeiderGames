@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>SpeiderGames</RootNamespace>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,11 +17,13 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.0-preview.2.24128.5" />
     <PackageReference Include="MongoDB.Driver" Version="2.24.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Twilio" Version="7.0.2" />
+    <PackageReference Include="Twilio" Version="7.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include=".github\workflows\deploy.yml" />
+    <Content Include="..\.dockerignore">
+      <Link>.dockerignore</Link>
+    </Content>
   </ItemGroup>
 
 </Project>
