@@ -6,7 +6,12 @@ using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 
-public class GameController : Controller
+public interface IGameController
+{
+    string GeneratePostPin();
+}
+
+public class GameController : Controller, IGameController
 {
     private readonly MongoDbContext _dbContext;
     private readonly IConfiguration _configuration;
@@ -194,7 +199,7 @@ public class GameController : Controller
 
         return gameCode;
     }
-    public static string GeneratePostPin()
+    public string GeneratePostPin()
     {
         Random random = new Random();
         string numbers = "0123456789";

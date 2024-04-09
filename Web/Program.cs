@@ -3,14 +3,9 @@ using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
-var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+//builder.WebHost.UseUrls("http://*:" + Environment.GetEnvironmentVariable("PORT"));
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
-
-builder.Configuration.AddJsonFile($"appsettings.json", optional: false, reloadOnChange: true);
-builder.Configuration.AddJsonFile($"appsettings.{environment}.json", optional: false, reloadOnChange: true);
-builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.Configure<MongoDBSettingsModel>(builder.Configuration.GetSection("MongoDBSettings"));
 builder.Services.AddOptions();
@@ -30,14 +25,13 @@ builder.Services.AddScoped<IMongoDatabase>(sp =>
 });
 
 builder.Services.AddScoped<IGameService, MongoDBGetGameService>();
+builder.Services.AddScoped<IGameController, GameController>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseStatusCodePagesWithReExecute("/Error/{0}");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 

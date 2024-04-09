@@ -20,6 +20,7 @@
     <div class="CreateGame">
         @using (Html.BeginForm("CreateGame", "Game", FormMethod.Post, new { id = "createGameForm" }))
         {
+            @Html.AntiForgeryToken()
             <label for="GameName">Navn på Konkurransen:</label>
             <br />
             @Html.TextBoxFor(model => model.GameName, new { required = "required" })

@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using SpeiderGames.Models;
@@ -13,7 +11,7 @@ public interface IGameService
 
     List<Game> GetGames();
     bool ValidateGameCode(string gameCode);
-
+    
     string GetPostPinForPostName(string gameCode, string postName);
 }
 
@@ -110,7 +108,7 @@ public class MongoDBGetGameService : IGameService
 
         return updateResult.ModifiedCount > 0;
     }
-
+    
     public string GetPostPinForPostName(string gameCode, string postName)
     {
         var pipeline = new BsonDocument[]

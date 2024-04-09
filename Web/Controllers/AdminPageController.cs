@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SpeiderGames.Models;
+using MongoDB.Driver;
 
 namespace SpeiderGames.Controllers
 {
@@ -8,11 +9,19 @@ namespace SpeiderGames.Controllers
     {
         private readonly ILogger<AdminPageController> _logger;
         private readonly IGameService _gameService;
+        private readonly MongoDbContext _dbContext;
+        private readonly IConfiguration _configuration;
+        private readonly IGameController _gameController;
 
-        public AdminPageController(ILogger<AdminPageController> logger, IGameService gameService)
+        public AdminPageController(ILogger<AdminPageController> logger, IGameService gameService, IConfiguration configuration, IGameController gameController)
         {
             _logger = logger;
             _gameService = gameService;
+            _gameController = gameController;
+            _configuration = configuration;
+            string dbName = _configuration["MongoDBSettings:DatabaseName"];
+            string connectionString = _configuration["MongoDBSettings:ConnectionString"];
+            _dbContext = new MongoDbContext(connectionString, dbName);
         }
 
         [HttpGet]
@@ -61,6 +70,7 @@ namespace SpeiderGames.Controllers
             return View("Error");
         }
         
+        
         [HttpPost]
         public ActionResult ChangeTeamPoints(UpdatePointsViewModel model)
         {
@@ -87,7 +97,6 @@ namespace SpeiderGames.Controllers
 
             return View("AdminChangePoints", model);
         }
-
         [HttpPost]
         public ActionResult AdminUpdatePoints(UpdatePointsViewModel model)
         {
@@ -104,6 +113,152 @@ namespace SpeiderGames.Controllers
                 ModelState.AddModelError(string.Empty, "Unable to update points. Game, team, or post not found.");
                 return View("Error_Request");
             }
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> AddPost(string gameCode)
+        {
+            string postPin = _gameController.GeneratePostPin();
+            var game = _gameService.GetGameByGameCode(gameCode);
+            int postNumber = game.Posts != null ? game.Posts.Count : 0;
+            string postName = $"Post{postNumber + 1}"; // +1 because the count is 0-based, but we want to start naming from 1
+            var filter = Builders<Game>.Filter.Eq(g => g.GameCode, gameCode);
+            var newPost = new Post { PostName = postName, PostPin = postPin, PostPoints = 0 };
+            var update = Builders<Game>.Update.Push<Post>("Posts", newPost);
+            
+            try
+            {
+                await _dbContext.Games.UpdateOneAsync(filter, update);
+                
+                // Assuming you have logic to update the NumberOfPosts in the Game
+                var updateNumberOfPosts = Builders<Game>.Update.Inc(g => g.NumberOfPosts, 1);
+                await _dbContext.Games.UpdateOneAsync(filter, updateNumberOfPosts);
+                
+                // Assuming the structure of your game document includes an array of teams
+                foreach (var team in game.Teams) // Assuming you have a list of teams in your game object
+                {
+                    // Construct a filter to target the specific team within the specific game.
+                    // This assumes teams are uniquely identifiable within the game by a TeamId or similar.
+                    var teamFilter = Builders<Game>.Filter.And(
+                        Builders<Game>.Filter.Eq(g => g.GameCode, gameCode),
+                        Builders<Game>.Filter.ElemMatch(g => g.Teams, t => t.TeamName == team.TeamName));
+
+                    // Define the update operation to add the new post to the team.
+                    // Adjust "Teams.$.Posts" according to your actual document structure.
+                    var teamUpdate = Builders<Game>.Update.Push($"Teams.$.Posts", newPost);
+
+                    // Perform the update operation.
+                    await _dbContext.Games.UpdateOneAsync(teamFilter, teamUpdate);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
+            var updatedGame = _gameService.GetGameByGameCode(gameCode);
+            
+            return View("/Views/AdminPage/Index.cshtml", updatedGame);
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> DeletePost(string gameCode)
+        {
+            // Retrieve the game document
+            var game = _gameService.GetGameByGameCode(gameCode);
+            if (game != null && game.Posts != null && game.Posts.Count > 0)
+            {
+                // Remove the last post from the list
+                game.Posts.RemoveAt(game.Posts.Count - 1);
+        
+                // Update the document with the modified posts list
+                var update = Builders<Game>.Update.Set("Posts", game.Posts);
+                await _dbContext.Games.UpdateOneAsync(Builders<Game>.Filter.Eq(g => g.GameCode, game.GameCode), update);
+
+                // Assuming you have logic to update the NumberOfPosts in the Game
+                var updateNumberOfPosts = Builders<Game>.Update.Inc(g => g.NumberOfPosts, -1);
+                await _dbContext.Games.UpdateOneAsync(Builders<Game>.Filter.Eq(g => g.GameCode, game.GameCode), updateNumberOfPosts);
+                
+                // Now, iterate through each team to remove the last post from their list
+                foreach (var team in game.Teams)
+                {
+                    if (team.Posts != null && team.Posts.Count > 0)
+                    {
+                        // Assuming the structure allows direct manipulation, remove the last post
+                        team.Posts.RemoveAt(team.Posts.Count - 1);
+
+                        // Update each team document individually
+                        // This assumes there's a direct way to reference and update a specific team's Posts within a Game document, adjust accordingly
+                        var teamUpdate = Builders<Game>.Update.Set($"Teams.$.Posts", team.Posts);
+                        var teamFilter = Builders<Game>.Filter.And(
+                            Builders<Game>.Filter.Eq("GameCode", game.GameCode),
+                            Builders<Game>.Filter.ElemMatch(g => g.Teams, t => t.TeamName == team.TeamName)
+                        );
+
+                        await _dbContext.Games.UpdateOneAsync(teamFilter, teamUpdate);
+                    }
+                }
+            }
+            var updatedGame = _gameService.GetGameByGameCode(gameCode);
+            
+            return View("/Views/AdminPage/Index.cshtml", updatedGame);
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> DeleteTeam(string gameCode, string teamName)
+        {
+            // Retrieve the game document
+            var game = _gameService.GetGameByGameCode(gameCode);
+            
+            // Find the team by name.
+            var teamToRemove = game.Teams.FirstOrDefault(t => t.TeamName.Equals(teamName, StringComparison.OrdinalIgnoreCase));
+            
+            // Remove the team from the game's team list.
+            game.Teams.Remove(teamToRemove);
+
+            // Update the game document in the database.
+            var filter = Builders<Game>.Filter.Eq(g => g.GameCode, gameCode);
+            var update = Builders<Game>.Update.Set(g => g.Teams, game.Teams);
+            await _dbContext.Games.UpdateOneAsync(filter, update);
+            
+            var updatedGame = _gameService.GetGameByGameCode(gameCode);
+            
+            return View("/Views/AdminPage/Index.cshtml", updatedGame);
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> AddTeam(string gameCode, string teamName)
+        {
+            // Retrieve the game document
+            var game = _gameService.GetGameByGameCode(gameCode);
+            
+            // Initialize the Posts list for the new team with a default post for each existing game post
+            var newTeamPosts = game.Posts.Select(post => new Post
+            {
+                PostName = post.PostName, // Assuming you want to copy the post names
+                PostPoints = 0,
+                PostPin = _gameController.GeneratePostPin()
+            }).ToList();
+            
+            // Create a new team object
+            var newTeam = new Team
+            {
+                TeamName = teamName,
+                Posts = newTeamPosts
+            };
+
+            // Define the update operation to add the new team
+            var update = Builders<Game>.Update.Push(g => g.Teams, newTeam);
+            // Create a filter to find the game by its code
+            var filter = Builders<Game>.Filter.Eq(g => g.GameCode, gameCode);
+
+            // Perform the update operation
+            await _dbContext.Games.UpdateOneAsync(filter, update);
+            
+            var updatedGame = _gameService.GetGameByGameCode(gameCode);
+            
+            return View("/Views/AdminPage/Index.cshtml", updatedGame);
         }
     }
 }

@@ -102,3 +102,87 @@ input, select {
     display: flex;
     justify-content: center;
 }
+
+.EditPosts{
+    display: flex;
+    flex-direction: column;
+}
+
+.AddPost{
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Hand cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for the hover effect */
+    text-align: center; /* Center the text inside the button */
+    display: inline-block; /* Allows the button to be sized according to its content */
+    text-decoration: none;
+    background-color: #66a457;
+    color: #fff; /* White text */
+}
+
+.AddPost:hover {
+    background-color: #559d3d; /* Darker shade of green on hover */
+}
+
+.DeletePost{
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Hand cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for the hover effect */
+    text-align: center; /* Center the text inside the button */
+    display: inline-block; /* Allows the button to be sized according to its content */
+    text-decoration: none;
+    margin-left: 10px;
+    background-color: #b14646;
+    color: #fff; /* White text */
+}
+
+.DeletePost:hover{
+    margin-left: 10px;
+    background-color: #a12524;
+}
+
+.DeleteTeam{
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Hand cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for the hover effect */
+    text-align: center; /* Center the text inside the button */
+    display: inline-block; /* Allows the button to be sized according to its content */
+    text-decoration: none;
+    background-color: #b14646;
+    color: #fff; /* White text */
+}
+
+.DeleteTeam:hover{
+    background-color: #a12524;
+}
+
+.AddTeamButton{
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Hand cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for the hover effect */
+    text-align: center; /* Center the text inside the button */
+    display: inline-block; /* Allows the button to be sized according to its content */
+    text-decoration: none;
+    background-color: #66a457;
+    color: #fff; /* White text */
+}
+
+.AddTeamButton:hover {
+    background-color: #559d3d; /* Darker shade of green on hover */
+}
+
+.AddTeamForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

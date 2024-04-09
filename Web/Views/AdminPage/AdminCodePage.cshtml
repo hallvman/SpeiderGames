@@ -15,19 +15,23 @@
         <h3>Konkurranse: @Model.GameName</h3>
     </div>
     <div class="gameDetails">
-        @foreach (var posts in Model.Posts)
-        {
-            <table>
+        <table>
+            <thead>
+            <tr>
+                <th>Post Name</th>
+                <th>Postcode</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach(var post in @Model.Posts)
+            {
                 <tr>
-                    <th>Post Name</th>
-                    <th>Postcode</th>
+                    <td>@post.PostName</td>
+                    <td>@post.PostPin</td>
                 </tr>
-                <tr>
-                    <td>@posts.PostName</td>
-                    <td>@posts.PostPin</td>
-                </tr>
-            </table>
-        }
+            }
+            </tbody>
+        </table>
     </div>
     <form asp-action="Index" asp-controller="AdminPage" method="post">
         <input type="hidden" asp-for="GameName"/>
