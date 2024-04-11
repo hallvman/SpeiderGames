@@ -27,6 +27,19 @@ namespace SpeiderGames.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            if (Request.Cookies.TryGetValue("AdminAccessGranted", out string accessGranted) && accessGranted == "true")
+            {
+                Request.Cookies.TryGetValue("GameCode", out string? gameCode);
+                var game = _gameService.GetGameByGameCode(gameCode);
+                bool isValidGamecode = _gameService.ValidateGameCode(gameCode);
+
+                if (isValidGamecode)
+                {
+                    ViewData["LogoutType"] = "AdminAccessGranted";
+                    return View("/Views/AdminPage/Index.cshtml", game);
+                }
+                return View("/Views/AdminPage/AdminPage.cshtml");
+            }
             return View("/Views/AdminPage/AdminPage.cshtml");
         }
         
@@ -35,18 +48,30 @@ namespace SpeiderGames.Controllers
         {
             var game = _gameService.GetGameByGameCode(gameCode);
             bool isValidGamecode = _gameService.ValidateGameCode(gameCode);
+            
+            if (isValidGamecode)
+            {
+                // Create a cookie with a long expiration time after successful game code verification
+                var cookieOptions = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(7), // Expires in 7 days
+                    HttpOnly = true, // Enhances security
+                    Secure = true // Ensures cookie is sent over HTTPS
+                };
 
+                // Set a cookie indicating admin access is granted
+                Response.Cookies.Append("AdminAccessGranted", "true", cookieOptions);
+                Response.Cookies.Append("GameCode", gameCode, cookieOptions);
+                ViewData["LogoutType"] = "AdminAccessGranted";
+                return View("/Views/AdminPage/Index.cshtml", game);
+            }
+            
             var validModel = new RequestErrorModel()
             {
                 GameCode = gameCode
             };
             
-            if (!isValidGamecode)
-            {
-                return View("Error_Request", validModel);
-            }
-
-            return View("/Views/AdminPage/Index.cshtml", game);
+            return View("Error_Request", validModel);
         }
 
         [HttpPost]
@@ -59,17 +84,9 @@ namespace SpeiderGames.Controllers
                 GameName = game.GameName,
                 Posts = postList
             };
-            
+            ViewData["LogoutType"] = "AdminAccessGranted";
             return View("AdminCodePage", model);
         }
-
-        [HttpPost]
-        public ActionResult ChangeTeamName()
-        {
-
-            return View("Error");
-        }
-        
         
         [HttpPost]
         public ActionResult ChangeTeamPoints(UpdatePointsViewModel model)
@@ -94,9 +111,10 @@ namespace SpeiderGames.Controllers
             // This assumes that you have properties Teams and Posts in your UpdatePointsViewModel
             model.Teams = new SelectList(teams, "TeamName", "TeamName");
             model.Posts = new SelectList(posts, "PostName", "PostName");
-
+            ViewData["LogoutType"] = "AdminAccessGranted";
             return View("AdminChangePoints", model);
         }
+        
         [HttpPost]
         public ActionResult AdminUpdatePoints(UpdatePointsViewModel model)
         {

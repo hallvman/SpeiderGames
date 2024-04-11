@@ -26,15 +26,32 @@ namespace SpeiderGames.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            var selectedGameName = Request.Cookies["SelectedGame"];
+            if (!string.IsNullOrEmpty(selectedGameName))
+            {
+                var isValidGame = _gameService.GetGames().Any(g => g.GameName == selectedGameName);
+                if (isValidGame)
+                {
+                    var teams = _gameService.GetTeamsForGame(selectedGameName);
+                    var posts = _gameService.GetPostsForGame(selectedGameName);
+                    var game = new UpdatePointsViewModel
+                    {
+                        GameName = selectedGameName,
+                        Teams = new SelectList(teams, "TeamName", "TeamName"),
+                        Posts = new SelectList(posts, "PostName", "PostName")
+                    };
+                    ViewData["LogoutType"] = "SelectedGame";
+                    return View("UpdatePoints", game);
+                }
+                // If the game name is not valid, you might choose to clear the cookie or take other appropriate actions.
+            }
             var games = _gameService.GetGames();
             
             var gamesSelectList = new SelectList(games, "GameName", "GameName");
 
             var viewModel = new UpdatePointsViewModel
             {
-                // Populate Games property with the SelectList
                 Games = gamesSelectList,
-                // Other properties...
             };
             
             return View("PostCoordinatorPage", viewModel);
@@ -43,21 +60,19 @@ namespace SpeiderGames.Controllers
         [HttpPost]
         public ActionResult SelectGame(UpdatePointsViewModel model)
         {
-            // Perform any necessary logic based on the selected game
-            // For example, you might want to fetch Teams and Posts for the selected game
             var teams = _gameService.GetTeamsForGame(model.GameName);
             var posts = _gameService.GetPostsForGame(model.GameName);
             
-            // Setting the GameName as a cookie named "GameSelected"
-            CookieOptions options = new CookieOptions();
-            options.Expires = DateTime.Now.AddDays(30); // Set the cookie to expire in 30 days
-            Response.Cookies.Append("GameSelected", model.GameName, options);
-            
-            // This assumes that you have properties Teams and Posts in your UpdatePointsViewModel
             model.Teams = new SelectList(teams, "TeamName", "TeamName");
             model.Posts = new SelectList(posts, "PostName", "PostName");
 
-            // Redirect to the next step (UpdatePoints) with the selected game as a parameter
+            Response.Cookies.Append("SelectedGame", model.GameName, new CookieOptions
+            {
+                HttpOnly = true, // More secure by preventing client-side scripts from accessing the cookie
+                Secure = true,   // Makes sure the cookie is sent over HTTPS
+                MaxAge = TimeSpan.FromHours(1) // Set the cookie to expire in an hour
+            });
+            ViewData["LogoutType"] = "SelectedGame";
             return View("UpdatePoints", model);
         }
 

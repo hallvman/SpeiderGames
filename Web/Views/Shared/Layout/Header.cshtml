@@ -8,5 +8,17 @@
             <span class="link-text">Administrer</span>
             <img class="icon" src="../settings.svg"/>
         </a>
+        @if (Context.Request.Cookies["SelectedGame"] != null && ViewData["LogoutType"] as string == "SelectedGame")
+        {
+            <a class="logout-button-postcoordinator" asp-area="" asp-controller="Account" asp-action="LogoutPostCoordinator">
+                Logg ut
+            </a>
+        }
+        else if (Context.Request.Cookies["UserSession"] != null && ViewData["LogoutType"] as string == "AdminAccessGranted")
+        {
+            <a class="logout-button-admin" asp-area="" asp-controller="Account" asp-action="LogoutAdmin">
+                Logg ut
+            </a>
+        }
     </nav>
 </header>

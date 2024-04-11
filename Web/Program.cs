@@ -26,6 +26,7 @@ builder.Services.AddScoped<IMongoDatabase>(sp =>
 
 builder.Services.AddScoped<IGameService, MongoDBGetGameService>();
 builder.Services.AddScoped<IGameController, GameController>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
