@@ -9,7 +9,7 @@
 
 .gameDetails{
     margin-top: 10px;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
     margin-right: 20px;
     margin-left: 20px;
     display: flex;
@@ -31,6 +31,13 @@ tr th, tr td {
     margin-right: 10px;
     border: 1px solid #000;
     padding: 8px;
+}
+
+
+@media (max-width: 768px) {
+    .small-screen{
+        display: none;
+    }
 }
 
 .button-container {
@@ -159,6 +166,14 @@ input, select {
 
 .DeleteTeam:hover{
     background-color: #a12524;
+}
+
+/* Targeting the specific cell to modify borders */
+.no-border {
+    border-top: none; /* Removes the top border */
+    border-bottom: none; /* Removes the bottom border */
+    border-left: none; /* Removes the left border */
+    /* Right border is kept, assuming you still want it */
 }
 
 .AddTeamButton{

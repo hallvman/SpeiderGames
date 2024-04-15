@@ -4,10 +4,6 @@ namespace SpeiderGames.Controllers
 {
     public class AccountController : Controller
     {
-        public AccountController()
-        {
-            
-        }
         public IActionResult LogoutPostCoordinator()
         {
             // Delete the SelectedGame cookie by setting its expiration to a past date

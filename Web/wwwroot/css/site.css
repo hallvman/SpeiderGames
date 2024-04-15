@@ -16,34 +16,57 @@ body {
 }
 
 .navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 61px;
     background-color: #367f99;
     overflow: hidden;
     margin-bottom: 10px;
-    display: flex;
-    justify-content: center;
 }
 
-    .navbar a {
-        color: #f2f2f2;
-        text-align: center;
-        text-decoration: none;
-        font-size: 17px;
-    }
+.navbar a {
+    color: #f2f2f2;
+    text-align: center;
+    text-decoration: none;
+    font-size: 19px;
+}
 
 .navbar a:hover {
     color: black;
 }
+
 .navbar a.active {
     background-color: #04AA6D;
     color: white;
 }
 
-.navbar-brand{
-    margin-right: 40px;
+.navbar-container {
+    display: flex;
+    flex: 1;
+    justify-content: space-between; /* This ensures spacers push the content to center */
+    align-items: center;
 }
 
-.nav-administrer {
-    margin-left: 40px;
+.center-buttons {
+    flex-grow: 0; /* Prevent center buttons from stretching */
+    gap: 40px;
+}
+
+.left-spacer, .right-spacer {
+    flex-grow: 1; /* Spacers take up equal space on both sides */
+}
+
+.logout-container {
+    position: absolute;
+    right: 10px;
+    
+    padding: 10px 20px;
+}
+
+.logout-button{
+    width: 32px;
+    height: 32px;
 }
 
 .icon {
@@ -51,14 +74,31 @@ body {
 }
 
 @media (max-width: 768px) {
-    .link-text {
-        display: none; /* Hide text on smaller screens */
+    .navbar-container, .center-buttons {
+        display: flex;
+        flex-direction: row; /* Ensure flex items are laid out in a row */
+        justify-content: center; /* Center the items within the container */
+        align-items: center; /* Align items vertically in the center */
+        gap: 20px;
     }
+
+    .link-text {
+        display: none; /* Hide text to save space and only show icons */
+    }
+
     .icon {
         display: block;
-        width: 32px; /* Larger icons for better visibility on small screens */
+        width: 32px; /* Adjust icon size as needed */
+        margin-right: 10px; /* Adds some space between the icons */
+    }
+
+    .navbar a {
+        display: flex; /* Ensures that the anchor tag itself is also flex */
+        align-items: center; /* Center align items if text wraps */
+        justify-content: center; /* Center content within each link */
     }
 }
+
 
 footer{
     position: fixed;
@@ -96,6 +136,7 @@ footer a:hover {
 .middle{
     color: black;
 }
+
 .dots-container {
     display: flex; /* Aligns the dots in a row */
     justify-content: center;
@@ -111,15 +152,3 @@ footer a:hover {
     border-radius: 50%; /* Makes the dot circular */
     display: inline-block; /* Allows dots to be placed in line */
 }
-
-.logout-button-postcoordinator{
-    margin-left: auto;
-}
-
-.logout-button-admin{
-    margin-left: auto;
-}
-
-
-
-

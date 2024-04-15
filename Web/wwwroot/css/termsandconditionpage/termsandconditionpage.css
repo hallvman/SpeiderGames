@@ -1,0 +1,23 @@
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+p {
+    max-width: 400px;
+}
+
+ul{
+    max-width: 400px;
+}
+
+.button{
+    color: black;
+    
+}
+
+.button:hover{
+    color: #367f99;
+}

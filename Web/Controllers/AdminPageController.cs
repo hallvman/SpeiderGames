@@ -1,5 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using SpeiderGames.Models;
 using MongoDB.Driver;
 
@@ -252,12 +258,7 @@ namespace SpeiderGames.Controllers
             var game = _gameService.GetGameByGameCode(gameCode);
             
             // Initialize the Posts list for the new team with a default post for each existing game post
-            var newTeamPosts = game.Posts.Select(post => new Post
-            {
-                PostName = post.PostName, // Assuming you want to copy the post names
-                PostPoints = 0,
-                PostPin = _gameController.GeneratePostPin()
-            }).ToList();
+            var newTeamPosts = _gameService.GetPostsForGame(game.GameName);
             
             // Create a new team object
             var newTeam = new Team

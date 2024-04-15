@@ -1,6 +1,5 @@
 @{
     ViewData["title"] = "Admin";
-    ViewData["LogoutType"] = "SelectedGame";
 }
 
 @model Game
@@ -18,11 +17,11 @@
         <div class="gameDetails">
             <table>
                 <tr>
-                    <th></th>
+                    <th class="no-border"></th>
                     <th>Teams:</th>
                     @for (int postIndex = 0; postIndex < Model.Posts.Count(); postIndex++)
                     {
-                        <th>@Model.Posts[postIndex].PostName</th>
+                        <th class="small-screen">@Model.Posts[postIndex].PostName</th>
                     }
                     <th>Sum: </th>
                 </tr>
@@ -30,7 +29,7 @@
                 {
                     int totalPoints = 0;
                     <tr>
-                        <td>
+                        <td class="no-border">
                             <!-- Delete button for each team -->
                             @using (Html.BeginForm("DeleteTeam", "AdminPage", FormMethod.Post))
                             {
@@ -45,7 +44,7 @@
                         @for (int postIndex = 0; postIndex < team.Posts?.Count(); postIndex++)
                         {
                             int points = team.Posts[postIndex].PostPoints ?? 0;
-                            <td>@points</td>
+                            <td class="small-screen">@points</td>
                             totalPoints += points;
                         }
                         <td>@totalPoints</td>
@@ -69,7 +68,7 @@
                 @Html.AntiForgeryToken()
 
                 <input type="hidden" name="gameCode" value="@Model.GameCode"/>
-                <input type="text" id="teamName" name="teamName" required/>
+                <input type="text" id="teamName" name="teamName" placeholder="Skriv inn navn her" required/>
                 <button type="submit" class="AddTeamButton">Legg til Lag</button>
             }
         </div>

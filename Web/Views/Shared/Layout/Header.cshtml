@@ -1,23 +1,33 @@
 ﻿<header>
     <nav class="navbar">
-        <a class="navbar-brand" asp-area="" asp-controller="StartApp" asp-action="Index">
-            <img class="icon" src="../home.svg"/>
-            <span class="link-text">SpeiderGames</span>
-        </a>
-        <a class="nav-administrer" asp-area="" asp-controller="AdminPage" asp-action="Index">
-            <span class="link-text">Administrer</span>
-            <img class="icon" src="../settings.svg"/>
-        </a>
+        <div class="navbar-container"> <!-- Added container for better control -->
+            <div class="left-spacer"></div>
+
+            <div class="center-buttons">
+                <a class="navbar-brand" asp-area="" asp-controller="StartApp" asp-action="Index">
+                    <img class="icon" src="../home.svg"/>
+                    <span class="link-text">SpeiderGames</span>
+                </a>
+                <a class="nav-administrer" asp-area="" asp-controller="AdminPage" asp-action="Index">
+                    <span class="link-text">Administrer</span>
+                    <img class="icon" src="../settings.svg"/>
+                </a>
+            </div>
+
+            <div class="right-spacer"></div>
+        </div>
+
         @if (Context.Request.Cookies["SelectedGame"] != null && ViewData["LogoutType"] as string == "SelectedGame")
         {
-            <a class="logout-button-postcoordinator" asp-area="" asp-controller="Account" asp-action="LogoutPostCoordinator">
-                Logg ut
+            <a class="logout-container" asp-area="" asp-controller="Account" asp-action="LogoutPostCoordinator">
+                <img class="logout-button" src="../logout.svg"/>
             </a>
         }
-        else if (Context.Request.Cookies["UserSession"] != null && ViewData["LogoutType"] as string == "AdminAccessGranted")
+
+        @if (Context.Request.Cookies["AdminAccessGranted"] != null && ViewData["LogoutType"] as string == "AdminAccessGranted")
         {
-            <a class="logout-button-admin" asp-area="" asp-controller="Account" asp-action="LogoutAdmin">
-                Logg ut
+            <a class="logout-container" asp-area="" asp-controller="Account" asp-action="LogoutAdmin">
+                <img class="logout-button" src="../logout.svg"/>
             </a>
         }
     </nav>

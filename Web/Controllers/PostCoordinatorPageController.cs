@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SpeiderGames.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace SpeiderGames.Controllers
 {
@@ -70,7 +75,7 @@ namespace SpeiderGames.Controllers
             {
                 HttpOnly = true, // More secure by preventing client-side scripts from accessing the cookie
                 Secure = true,   // Makes sure the cookie is sent over HTTPS
-                MaxAge = TimeSpan.FromHours(1) // Set the cookie to expire in an hour
+                MaxAge = TimeSpan.FromHours(6) // Set the cookie to expire in an hour
             });
             ViewData["LogoutType"] = "SelectedGame";
             return View("UpdatePoints", model);
