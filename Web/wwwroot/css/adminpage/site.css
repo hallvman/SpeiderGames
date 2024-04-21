@@ -14,6 +14,9 @@
     margin-left: 20px;
     display: flex;
     justify-content: center;
+    border: 2px solid black; /* Sets the border thickness to 2px, style to solid, and color to black */
+    padding: 10px; /* Adds space inside the div around the content */
+    margin: 20px; /* Adds space outside the div */
 }
 
 .adminSearch{
@@ -200,4 +203,12 @@ input, select {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.PostNameForDescription{
+    margin-bottom: 10px;
+}
+
+.scrollable-table {
+    overflow-x: auto;
 }

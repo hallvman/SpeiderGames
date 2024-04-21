@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using SpeiderGames.Models;
 using Newtonsoft.Json;
@@ -54,7 +55,7 @@ public class GameController : Controller, IGameController
             for (int i = 1; i <= game.NumberOfPosts; i++)
             {
                 string postPin = GeneratePostPin();
-                posts.Add(new Post { PostName = $"Post{i}", PostPin = postPin, PostPoints = 0});
+                posts.Add(new Post { PostName = $"Post{i}", Description = "", PostPin = postPin, PostPoints = 0});
             }
 
             for (int i = 1; i <= game.NumberOfTeams; i++)
@@ -134,6 +135,8 @@ public class GameController : Controller, IGameController
             var tempName = team.TeamName;
             tempTeam.Add(new Team { TeamName = tempName, Posts = posts});
         }
+        
+        var postsSelectList = new SelectList(posts, "PostName", "PostName");
 
         var model = new Game
         {
@@ -142,6 +145,7 @@ public class GameController : Controller, IGameController
             GameCode = gameCode,
             NumberOfTeams = numberOfTeams,
             NumberOfPosts = numberOfPosts,
+            SelectPosts = postsSelectList,
             Teams = tempTeam,
             Posts = posts
         };
@@ -153,8 +157,7 @@ public class GameController : Controller, IGameController
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            return RedirectToAction("Index", "ErrorPage");
         }
 
         return RedirectToAction("Index", "SuccessPage", model); // Redirect to the home page or any other page

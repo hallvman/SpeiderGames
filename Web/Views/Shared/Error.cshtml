@@ -1,10 +1,24 @@
 @model ErrorModel
 
-<div>
-    <h1>
-        @Model.ErrorCode
-    </h1>
-    <h3>
-        @Model.ErrorMessage
-    </h3>
+<head>
+    <link rel="stylesheet" href="~/css/errorpage/site.css" asp-append-version="true"/>
+</head>
+<div class="error_page">
+    <div class="title">
+        <h1>
+            Det har skjedd en feil.
+            </h1>
+    </div>
+    <br/>
+    <div class="content">
+        <h3>
+            Vennligst gå tilbake
+            </h3>
+    </div>
+    <br/>
+    <div>
+        <a class="stylish-button" asp-area="" asp-controller="StartApp" asp-action="Index">
+            Tilbake
+            </a>
+    </div>
 </div>

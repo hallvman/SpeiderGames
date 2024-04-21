@@ -1,13 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using SpeiderGames.Models;
 using MongoDB.Driver;
+using System.Text.RegularExpressions;
 
 namespace SpeiderGames.Controllers
 {
@@ -41,6 +38,9 @@ namespace SpeiderGames.Controllers
 
                 if (isValidGamecode)
                 {
+                    var posts = _gameService.GetPostsForGame(game.GameName);
+                    var postsSelectList = new SelectList(posts, "PostName", "PostName");
+                    game.SelectPosts = postsSelectList;
                     ViewData["LogoutType"] = "AdminAccessGranted";
                     return View("/Views/AdminPage/Index.cshtml", game);
                 }
@@ -72,12 +72,7 @@ namespace SpeiderGames.Controllers
                 return View("/Views/AdminPage/Index.cshtml", game);
             }
             
-            var validModel = new RequestErrorModel()
-            {
-                GameCode = gameCode
-            };
-            
-            return View("Error_Request", validModel);
+            return View("Error");
         }
 
         [HttpPost]
@@ -95,19 +90,71 @@ namespace SpeiderGames.Controllers
         }
         
         [HttpPost]
+        public ActionResult CreatePdf(string gameName)
+        {
+            var data = _gameService.GetDataFromMongoDB(gameName);
+            GeneratePdf(data);
+
+            var now = DateTime.Now.ToString();
+
+            // Optionally return the PDF file as a download
+            return File(System.IO.File.ReadAllBytes("output.pdf"), "application/pdf", $"{now}_logg.pdf");
+        }
+        
+        public void GeneratePdf(List<Log> data)
+        {
+            using (var stream = new FileStream("output.pdf", FileMode.Create))
+            {
+                var document = new Document();
+                PdfWriter.GetInstance(document, stream);
+                document.Open();
+
+                // Adding a title
+                var titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+                document.Add(new Paragraph("Innsendte Poeng", titleFont));
+                document.Add(new Paragraph($"Generert den: {DateTime.Now.ToString()}"));
+                document.Add(new Paragraph("Dette er en oversikt over alle innsendte poeng:\n\n"));
+
+                // Adding a table
+                PdfPTable table = new PdfPTable(5);
+                table.AddCell("Tidspunkt:");
+                table.AddCell("Lag:");
+                table.AddCell("Post:");
+                table.AddCell("Poeng:");
+                table.AddCell("Oppdatert av admin:");
+                
+                foreach (var item in data)
+                {
+                    string requestDate = item.RequestDate.ToString();
+                    table.AddCell(requestDate); // Current time for each entry
+                    table.AddCell(item.TeamName);
+                    table.AddCell(item.PostName);
+                    table.AddCell(item.Points.ToString());
+                    string boolString = "";
+                    if (item.UpdateByAdmin)
+                    {
+                        boolString = "Ja";
+                    }
+                    else
+                    {
+                        boolString = "Nei";
+                    }
+                    table.AddCell(boolString); 
+                }
+
+                document.Add(table);
+                document.Close();
+            }
+        }
+        
+        [HttpPost]
         public ActionResult ChangeTeamPoints(UpdatePointsViewModel model)
         {
             bool isValidGamecode = _gameService.ValidateGameCode(model.GameCode);
-
-            var validModel = new RequestErrorModel()
-            {
-                GameName = model.GameName,
-                GameCode = model.GameCode
-            };
             
             if (!isValidGamecode)
             {
-                return View("Error_Request", validModel);
+                return View("Error");
             }
             // Perform any necessary logic based on the selected game
             // For example, you might want to fetch Teams and Posts for the selected game
@@ -130,12 +177,12 @@ namespace SpeiderGames.Controllers
 
             if (updated)
             {
-                return RedirectToAction("UpdatePoints", "SuccessPage", model);
+                var adminUpdated = _gameService.UpdatePointsInLogs(model.GameName, model.TeamName, model.PostName, model.Points, true);
+                return RedirectToAction("Index", "AdminPage", model);
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Unable to update points. Game, team, or post not found.");
-                return View("Error_Request");
+                return View("Error");
             }
         }
         
@@ -273,6 +320,28 @@ namespace SpeiderGames.Controllers
             var filter = Builders<Game>.Filter.Eq(g => g.GameCode, gameCode);
 
             // Perform the update operation
+            await _dbContext.Games.UpdateOneAsync(filter, update);
+            
+            var updatedGame = _gameService.GetGameByGameCode(gameCode);
+            
+            return View("/Views/AdminPage/Index.cshtml", updatedGame);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddDescriptionForPost(string gameCode, string postName, string description)
+        {
+            var game = _gameService.ValidateGameCode(gameCode);
+
+            var filter = Builders<Game>.Filter.And(
+                Builders<Game>.Filter.Eq(g => g.GameCode, gameCode),
+                Builders<Game>.Filter.ElemMatch(g => g.Posts, Builders<Post>.Filter.Eq(p => p.PostName, postName))
+            );
+            
+            var indexPost = Regex.Replace(postName, "Post", "", RegexOptions.IgnoreCase);
+            int.TryParse(indexPost, out int index);
+            
+            var update = Builders<Game>.Update.Set(g => g.Posts[index-1].Description, description);
+            
             await _dbContext.Games.UpdateOneAsync(filter, update);
             
             var updatedGame = _gameService.GetGameByGameCode(gameCode);

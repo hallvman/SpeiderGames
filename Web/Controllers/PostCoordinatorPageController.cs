@@ -85,15 +85,15 @@ namespace SpeiderGames.Controllers
         public ActionResult UpdatePoints(UpdatePointsViewModel model)
         {
             var updated = _gameService.UpdatePoints(model.GameName, model.TeamName, model.PostName, model.PostPin, model.Points);
-
+            
             if (updated)
             {
+                var logsUpdated = _gameService.UpdatePointsInLogs(model.GameName, model.TeamName, model.PostName, model.Points, false);
                 return RedirectToAction("UpdatePoints", "SuccessPage", model);
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Unable to update points. Game, team, or post not found.");
-                return View(model);
+                return RedirectToAction("Index", "ErrorPage");
             }
         }
     }

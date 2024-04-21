@@ -33,7 +33,8 @@ body {
 }
 
 .navbar a:hover {
-    color: black;
+    color: #f2f2f2;
+    text-decoration: underline;
 }
 
 .navbar a.active {

@@ -8,8 +8,8 @@ namespace SpeiderGames.Models
     [Serializable]
     public class Post
     {
-        
         public string? PostName { get; set; }
+        public string? Description {get; set;}
         public string? PostPin { get; set; }
         public int? PostPoints { get; set; }
     }
@@ -31,7 +31,20 @@ namespace SpeiderGames.Models
         public int NumberOfTeams { get; set; }
 
         public List<Post>? Posts { get; set; }
+        public SelectList? SelectPosts { get; set; }
+        public string? PostName { get; set; }
         public List<Team>? Teams { get; set; }
+        
+        public List<Log>? Logs { get; set; }
+    }
+
+    public class Log
+    {
+        public DateTime RequestDate { get; set; }
+        public string? TeamName { get; set; }
+        public string? PostName { get; set; }
+        public int Points { get; set; }
+        public bool UpdateByAdmin { get; set; }
     }
     
     public class UpdatePointsViewModel

@@ -15,42 +15,53 @@
             <h2>@Model.GameName</h2>
         </div>
         <div class="gameDetails">
-            <table>
-                <tr>
-                    <th class="no-border"></th>
-                    <th>Teams:</th>
-                    @for (int postIndex = 0; postIndex < Model.Posts.Count(); postIndex++)
-                    {
-                        <th class="small-screen">@Model.Posts[postIndex].PostName</th>
-                    }
-                    <th>Sum: </th>
-                </tr>
-                @foreach (var team in Model.Teams)
-                {
-                    int totalPoints = 0;
+            <div class="scrollable-table">
+                <table>
                     <tr>
-                        <td class="no-border">
-                            <!-- Delete button for each team -->
-                            @using (Html.BeginForm("DeleteTeam", "AdminPage", FormMethod.Post))
-                            {
-                                @Html.AntiForgeryToken()
-
-                                <input type="hidden" name="gameCode" value="@Model.GameCode"/>
-                                <input type="hidden" name="teamName" value="@team.TeamName" required/>
-                                <button class="DeleteTeam">Slett Lag</button>
-                            }
-                        </td>
-                        <td>@team.TeamName</td>
-                        @for (int postIndex = 0; postIndex < team.Posts?.Count(); postIndex++)
+                        <th class="no-border"></th>
+                        <th>Lag:</th>
+                        @for (int postIndex = 0; postIndex < Model.Posts.Count(); postIndex++)
                         {
-                            int points = team.Posts[postIndex].PostPoints ?? 0;
-                            <td class="small-screen">@points</td>
-                            totalPoints += points;
+                            <th class="small-screen">@Model.Posts[postIndex].PostName</th>
                         }
-                        <td>@totalPoints</td>
+                        <th>Sum: </th>
                     </tr>
-                }
-            </table>
+                    <tr>
+                        <td class="no-border"></td>
+                        <th>Beskrivelse:</th>
+                        @for (int postIndex = 0; postIndex < Model.Posts.Count(); postIndex++)
+                        {
+                            <td class="small-screen">@Model.Posts[postIndex].Description</td>
+                        }
+                        <td></td> <!-- Empty cell for sum column -->
+                    </tr>
+                    @foreach (var team in Model.Teams)
+                    {
+                        int totalPoints = 0;
+                        <tr>
+                            <td class="no-border">
+                                <!-- Delete button for each team -->
+                                @using (Html.BeginForm("DeleteTeam", "AdminPage", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <input type="hidden" name="gameCode" value="@Model.GameCode"/>
+                                    <input type="hidden" name="teamName" value="@team.TeamName" required/>
+                                    <button class="DeleteTeam">Slett Lag</button>
+                                }
+                            </td>
+                            <td>@team.TeamName</td>
+                            @for (int postIndex = 0; postIndex < team.Posts?.Count(); postIndex++)
+                            {
+                                int points = team.Posts[postIndex].PostPoints ?? 0;
+                                <td class="small-screen">@points</td>
+                                totalPoints += points;
+                            }
+                            <td>@totalPoints</td>
+                        </tr>
+                    }
+                </table>
+            </div>
             <div class="EditPosts">
                 <form asp-action="AddPost" asp-controller="AdminPage">
                     <input type="hidden" asp-for="GameCode"/>
@@ -63,13 +74,29 @@
             </div>
         </div>
         <div class="AddTeamForm">
+            <h4>Legg til Lag</h4>
             @using (Html.BeginForm("AddTeam", "AdminPage", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
 
                 <input type="hidden" name="gameCode" value="@Model.GameCode"/>
                 <input type="text" id="teamName" name="teamName" placeholder="Skriv inn navn her" required/>
+                <br/>
                 <button type="submit" class="AddTeamButton">Legg til Lag</button>
+            }
+        </div>
+        <div class="AddTeamForm">
+            <h4>Legg til Beskrivelse på en post</h4>
+            @using (Html.BeginForm("AddDescriptionForPost", "AdminPage", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" name="gameCode" value="@Model.GameCode"/>
+                <input type="text" id="PostName" class="PostNameForDescription" name="postName" placeholder="Navnet på Posten her" required/>
+                <br/>
+                <input type="text" id="description" name="description" placeholder="Beskrivelsen her" required/>
+                <br/>
+                <button type="submit" class="AddTeamButton">Legg til Beskrivelse</button>
             }
         </div>
         <div class="AdminButtons">
@@ -77,12 +104,16 @@
                 <input type="hidden" asp-for="GameName"/>
                 <input type="hidden" asp-for="GameCode"/>
                 <input type="hidden" asp-for="Posts"/>
-                <button class="stylish-button">Post Koder</button>
+                <button class="stylish-button">Pinkoder for poster</button>
             </form>
             <form asp-action="ChangeTeamPoints" asp-controller="AdminPage" method="post">
                 <input type="hidden" asp-for="GameName"/>
                 <input type="hidden" asp-for="GameCode"/>
                 <button type="submit" class="stylish-button">Endre Poeng</button>
+            </form>
+            <form asp-action="CreatePdf" asp-controller="AdminPage" method="post">
+                <input type="hidden" asp-for="GameName"/>
+                <button type="submit" class="stylish-button">Skriv ut logg</button>
             </form>
         </div>
     }

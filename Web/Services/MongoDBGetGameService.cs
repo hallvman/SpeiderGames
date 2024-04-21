@@ -6,7 +6,7 @@ using SpeiderGames.Models;
 
 public interface IGameService
 {
-    Game GetGameByGameCode(string gameCode);
+    Game GetGameByGameCode(string gameCode); 
     bool UpdatePoints(string gameName, string teamName, string postName, string postPin, int points);
     List<Team> GetTeamsForGame(string selectedGame);
     List<Post> GetPostsForGame(string selectedGame);
@@ -15,12 +15,15 @@ public interface IGameService
     bool ValidateGameCode(string gameCode);
     
     string GetPostPinForPostName(string gameCode, string postName);
+    List<Log> GetDataFromMongoDB(string selectedGame);
+    bool UpdatePointsInLogs(string gameName, string teamName, string postName, int points, bool updateByAdmin);
 }
 
 public class MongoDBGetGameService : IGameService
 {
     private readonly IMongoCollection<Game> _gameCollection;
     private readonly IMongoCollection<UpdatePointsViewModel> _gamesCollection;
+    private readonly MongoDbContext _dbContext;
 
     public MongoDBGetGameService(IMongoDatabase database)
     {
@@ -31,6 +34,16 @@ public class MongoDBGetGameService : IGameService
         var indexKeys = Builders<Game>.IndexKeys.Ascending(g => g.GameName);
         var indexModel = new CreateIndexModel<Game>(indexKeys);
         _gameCollection.Indexes.CreateOne(indexModel);
+    }
+    
+    public List<Log> GetDataFromMongoDB(string selectedGame)
+    {
+        var filter = Builders<Game>.Filter.Eq(g => g.GameName, selectedGame);
+        var projection = Builders<Game>.Projection.Include(g => g.Logs);
+
+        var logs = _gameCollection.Find(filter).Project<Game>(projection).FirstOrDefault()?.Logs;
+
+        return logs ?? new List<Log>();
     }
     
     public List<Team> GetTeamsForGame(string selectedGame)
@@ -83,32 +96,49 @@ public class MongoDBGetGameService : IGameService
     
     public bool UpdatePoints(string gameName, string teamName, string postName, string postPin, int points)
     {
-        var index = 0;
-
-        // Remove the "PostName" prefix
-        string postNumberString = postName.Replace("Post", "");
-
-        int.TryParse(postNumberString, out index);
-        
+        // No need to parse index from postName for filtering purposes.
         var filter = Builders<Game>.Filter.And(
             Builders<Game>.Filter.Eq(g => g.GameName, gameName),
-            Builders<Game>.Filter.ElemMatch(g => g.Teams, team => team.TeamName == teamName),
-            Builders<Game>.Filter.ElemMatch(g => g.Teams[index-1].Posts, post => post.PostName == postName && post.PostPin == postPin)
+            Builders<Game>.Filter.ElemMatch(g => g.Teams, team => team.TeamName == teamName)
         );
 
         var update = Builders<Game>.Update.Set($"Teams.$[team].Posts.$[post].PostPoints", points);
-
+    
+        // Use array filters to identify the correct team and post.
         var arrayFilters = new List<ArrayFilterDefinition>
         {
-            new BsonDocumentArrayFilterDefinition<BsonDocument>(BsonDocument.Parse($"{{ 'team.TeamName': '{teamName}' }}")),
-            new BsonDocumentArrayFilterDefinition<BsonDocument>(BsonDocument.Parse($"{{ 'post.PostName': '{postName}' }}"))
+            new BsonDocumentArrayFilterDefinition<BsonDocument>(new BsonDocument("team.TeamName", teamName)),
+            new BsonDocumentArrayFilterDefinition<BsonDocument>(new BsonDocument { { "post.PostName", postName }, { "post.PostPin", postPin } })
         };
 
         var options = new UpdateOptions { ArrayFilters = arrayFilters };
 
         var updateResult = _gameCollection.UpdateOne(filter, update, options);
-
+   
         return updateResult.ModifiedCount > 0;
+    }
+    
+    public bool UpdatePointsInLogs(string gameName, string teamName, string postName, int points, bool updateByAdmin)
+    {
+        DateTime now = DateTime.Now;
+        var newLog = new Log
+        {
+            RequestDate = now,
+            TeamName = teamName,
+            PostName = postName,
+            Points = points,
+            UpdateByAdmin = updateByAdmin
+        };
+
+        // Define the update operation to add the new team
+        var update = Builders<Game>.Update.Push(g => g.Logs, newLog);
+        // Create a filter to find the game by its code
+        var filter = Builders<Game>.Filter.Eq(g => g.GameName, gameName);
+
+        // Perform the update operation
+        var result = _gameCollection.UpdateOne(filter, update);
+
+        return result.IsAcknowledged && result.ModifiedCount > 0;
     }
     
     public string GetPostPinForPostName(string gameCode, string postName)
