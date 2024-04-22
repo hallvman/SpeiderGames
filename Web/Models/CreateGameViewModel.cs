@@ -31,8 +31,6 @@ namespace SpeiderGames.Models
         public int NumberOfTeams { get; set; }
 
         public List<Post>? Posts { get; set; }
-        public SelectList? SelectPosts { get; set; }
-        public string? PostName { get; set; }
         public List<Team>? Teams { get; set; }
         
         public List<Log>? Logs { get; set; }
@@ -54,6 +52,7 @@ namespace SpeiderGames.Models
         public SelectList? Posts { get; set; }
         
         public List<string>? AllPosts { get; set; } 
+        public bool LogUpdate { get; set; }
         public string? GameName { get; set; }
         public string? GameCode { get; set; }
         public string? TeamName { get; set; }

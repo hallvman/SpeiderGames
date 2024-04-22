@@ -1,12 +1,13 @@
-@{
-    ViewData["title"] = "Endring gjennomført";
+﻿@{
+    ViewData["title"] = "Admin";
 }
-<head>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/css/successpage/site.css" asp-append-version="true"/>
-</head>
 
 @model UpdatePointsViewModel
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/successpage/site.css" asp-append-version="true" />
+</head>
 
 <div>
     <div class="pageTitleSuccess">
@@ -28,7 +29,7 @@
             </p>
         }
     </div>
-    <a class="stylish-button" asp-area="" asp-controller="PostCoordinatorPage" asp-action="Index">
+    <a class="stylish-button" asp-area="" asp-controller="AdminPage" asp-action="Index">
         Tilbake
-    </a>
+        </a>
 </div>

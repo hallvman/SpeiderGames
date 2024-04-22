@@ -39,8 +39,6 @@ namespace SpeiderGames.Controllers
                 if (isValidGamecode)
                 {
                     var posts = _gameService.GetPostsForGame(game.GameName);
-                    var postsSelectList = new SelectList(posts, "PostName", "PostName");
-                    game.SelectPosts = postsSelectList;
                     ViewData["LogoutType"] = "AdminAccessGranted";
                     return View("/Views/AdminPage/Index.cshtml", game);
                 }
@@ -178,7 +176,15 @@ namespace SpeiderGames.Controllers
             if (updated)
             {
                 var adminUpdated = _gameService.UpdatePointsInLogs(model.GameName, model.TeamName, model.PostName, model.Points, true);
-                return RedirectToAction("Index", "AdminPage", model);
+                var updateComplete = new UpdatePointsViewModel
+                {
+                    GameName = model.GameName,
+                    TeamName = model.TeamName,
+                    PostName = model.PostName,
+                    Points = model.Points,
+                    LogUpdate = adminUpdated,
+                };
+                return RedirectToAction("Index", "AdminPage", updateComplete);
             }
             else
             {

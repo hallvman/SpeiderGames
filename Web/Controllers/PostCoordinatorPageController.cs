@@ -89,7 +89,15 @@ namespace SpeiderGames.Controllers
             if (updated)
             {
                 var logsUpdated = _gameService.UpdatePointsInLogs(model.GameName, model.TeamName, model.PostName, model.Points, false);
-                return RedirectToAction("UpdatePoints", "SuccessPage", model);
+                var updateComplete = new UpdatePointsViewModel
+                {
+                    GameName = model.GameName,
+                    TeamName = model.TeamName,
+                    PostName = model.PostName,
+                    Points = model.Points,
+                    LogUpdate = logsUpdated,
+                };
+                return RedirectToAction("UpdatePoints", "SuccessPage", updateComplete);
             }
             else
             {

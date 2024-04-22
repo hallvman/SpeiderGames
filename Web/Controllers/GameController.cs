@@ -135,9 +135,8 @@ public class GameController : Controller, IGameController
             var tempName = team.TeamName;
             tempTeam.Add(new Team { TeamName = tempName, Posts = posts});
         }
-        
-        var postsSelectList = new SelectList(posts, "PostName", "PostName");
 
+        List<Log> logs = new List<Log>();
         var model = new Game
         {
             GameName = gameName,
@@ -145,9 +144,9 @@ public class GameController : Controller, IGameController
             GameCode = gameCode,
             NumberOfTeams = numberOfTeams,
             NumberOfPosts = numberOfPosts,
-            SelectPosts = postsSelectList,
             Teams = tempTeam,
-            Posts = posts
+            Posts = posts,
+            Logs = logs
         };
 
         try

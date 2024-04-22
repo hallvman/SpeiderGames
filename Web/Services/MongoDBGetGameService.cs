@@ -121,6 +121,7 @@ public class MongoDBGetGameService : IGameService
     public bool UpdatePointsInLogs(string gameName, string teamName, string postName, int points, bool updateByAdmin)
     {
         DateTime now = DateTime.Now;
+        
         var newLog = new Log
         {
             RequestDate = now,

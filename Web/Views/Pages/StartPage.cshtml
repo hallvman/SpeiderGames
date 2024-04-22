@@ -2,10 +2,10 @@
     ViewData["Title"] = "Forside";
 }
 <head>
-    <link rel="stylesheet" href="~/css/homepage/homepage.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/homepage/homepage.css" asp-append-version="true"/>
 </head>
 <div class="text-center">
-    <img class="home-logo" src="~/logo.png" width="250" />
+    <img class="home-logo" src="~/logo.png" width="250"/>
     <div class="main-buttons">
         <h1>Velkommen</h1>
         <div class="dots-container">
@@ -29,5 +29,39 @@
                 </a>
             </button>
         </div>
+        @if (Context.Request.Cookies["PrivacyAccepted"] == null)
+        {
+            <!-- Privacy Modal -->
+            <div id="privacyModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Personvernserklæring</h2>
+                    <p>Vi har oppdatert vår personvernpolicy. Vennligst gjennomgå den for å forstå hvordan vi håndterer dine data.</p>
+                    <a class="AcceptPrivacy" asp-controller="PrivacyPage" asp-action="Index">Personvernerklæring</a>
+                    <a class="AcceptPrivacy" asp-controller="PrivacyPage" asp-action="AcceptPrivacy">Godta Personvernerklæringen</a>
+                </div>
+            </div>
+        }
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var modal = document.getElementById('privacyModal');
+        var span = document.getElementsByClassName('close')[0];
+        console.log("Modal element:", modal);
+    
+        if (modal) {
+            modal.style.display = 'block';
+    
+            span.onclick = function () {
+                modal.style.display = 'none';
+            };
+    
+            window.onclick = function (event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            };
+        }
+    });
+</script>
