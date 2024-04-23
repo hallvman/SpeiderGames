@@ -17,6 +17,7 @@ public interface IGameService
     bool ValidateGameCode(string gameCode);
     
     string GetPostPinForPostName(string gameCode, string postName);
+    int GetPointsForPostName(string gameName, string postName);
     List<Log> GetDataFromMongoDB(string selectedGame);
     bool UpdatePointsInLogs(string gameName, string teamName, string postName, int points, bool updateByAdmin);
 }
@@ -135,12 +136,17 @@ public class MongoDBGetGameService : IGameService
             new BsonDocumentArrayFilterDefinition<BsonDocument>(new BsonDocument("team.TeamName", teamName)),
             new BsonDocumentArrayFilterDefinition<BsonDocument>(new BsonDocument { { "post.PostName", postName }, { "post.PostPin", postPin } })
         };
+        var oldPoints = GetPointsForPostName(gameName, postName);
+        if (oldPoints != points)
+        {
+            var options = new UpdateOptions { ArrayFilters = arrayFilters };
 
-        var options = new UpdateOptions { ArrayFilters = arrayFilters };
-
-        var updateResult = _gameCollection.UpdateOne(filter, update, options);
+            var updateResult = _gameCollection.UpdateOne(filter, update, options);
    
-        return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
+            return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
+        }
+
+        return true;
     }
     
     public bool UpdatePointsInLogs(string gameName, string teamName, string postName, int points, bool updateByAdmin)
@@ -197,6 +203,38 @@ public class MongoDBGetGameService : IGameService
         }
 
         return postPin;
+    }
+    
+    public int GetPointsForPostName(string gameName, string postName)
+    {
+        var pipeline = new BsonDocument[]
+        {
+            new BsonDocument("$match", new BsonDocument("GameName", gameName)),
+            new BsonDocument("$unwind", new BsonDocument("path", "$Teams")),
+            new BsonDocument("$unwind", new BsonDocument("path", "$Teams.Posts")),
+            new BsonDocument("$match", new BsonDocument("Teams.Posts.PostName", postName)),
+            new BsonDocument("$project", new BsonDocument
+            {
+                { "_id", 0 },
+                { "PostPoints", "$Teams.Posts.PostPoints" }
+            }),
+            new BsonDocument("$limit", 1)
+        };
+        
+        int Points = 0;
+    
+        // Using async/await pattern correctly
+        var cursor = _gamesCollection.AggregateAsync<BsonDocument>(pipeline).GetAwaiter().GetResult();
+        while (cursor.MoveNextAsync().GetAwaiter().GetResult()) // Synchronously waiting on the async operation
+        {
+            foreach (var doc in cursor.Current)
+            {
+                Points = doc["PostPoints"].AsInt32;
+                break; // Assuming uniqueness, breaking after the first match
+            }
+        }
+
+        return Points;
     }
     
     public bool ValidateGameCode(string gameCode)
