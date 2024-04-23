@@ -225,7 +225,13 @@ namespace SpeiderGames.Controllers
                     var teamUpdate = Builders<Game>.Update.Push($"Teams.$.Posts", newPost);
 
                     // Perform the update operation.
-                    await _dbContext.Games.UpdateOneAsync(teamFilter, teamUpdate);
+                    var updated = await _dbContext.Games.UpdateOneAsync(teamFilter, teamUpdate);
+                    if (updated.ModifiedCount > 0)
+                    {
+                        var updatedGame = _gameService.GetGameByGameCode(gameCode);
+            
+                        return View("/Views/AdminPage/Index.cshtml", updatedGame);
+                    }
                 }
             }
             catch (Exception e)
@@ -234,9 +240,7 @@ namespace SpeiderGames.Controllers
                 throw;
             }
             
-            var updatedGame = _gameService.GetGameByGameCode(gameCode);
-            
-            return View("/Views/AdminPage/Index.cshtml", updatedGame);
+            return View("Error");
         }
         
         [HttpPost]
@@ -273,13 +277,17 @@ namespace SpeiderGames.Controllers
                             Builders<Game>.Filter.ElemMatch(g => g.Teams, t => t.TeamName == team.TeamName)
                         );
 
-                        await _dbContext.Games.UpdateOneAsync(teamFilter, teamUpdate);
+                        var updated = await _dbContext.Games.UpdateOneAsync(teamFilter, teamUpdate);
+                        if (updated.ModifiedCount > 0)
+                        {
+                            var updatedGame = _gameService.GetGameByGameCode(gameCode);
+            
+                            return View("/Views/AdminPage/Index.cshtml", updatedGame);
+                        }
                     }
                 }
             }
-            var updatedGame = _gameService.GetGameByGameCode(gameCode);
-            
-            return View("/Views/AdminPage/Index.cshtml", updatedGame);
+            return View("Error");
         }
         
         [HttpPost]
@@ -297,11 +305,19 @@ namespace SpeiderGames.Controllers
             // Update the game document in the database.
             var filter = Builders<Game>.Filter.Eq(g => g.GameCode, gameCode);
             var update = Builders<Game>.Update.Set(g => g.Teams, game.Teams);
-            await _dbContext.Games.UpdateOneAsync(filter, update);
             
-            var updatedGame = _gameService.GetGameByGameCode(gameCode);
+            var updated = await _dbContext.Games.UpdateOneAsync(filter, update);
+
+            if (updated.ModifiedCount > 0)
+            {
+                var updatedGame = _gameService.GetGameByGameCode(gameCode);
             
-            return View("/Views/AdminPage/Index.cshtml", updatedGame);
+                return View("/Views/AdminPage/Index.cshtml", updatedGame);
+            }
+            else
+            {
+                return View("Error");
+            }
         }
         
         [HttpPost]
@@ -326,11 +342,18 @@ namespace SpeiderGames.Controllers
             var filter = Builders<Game>.Filter.Eq(g => g.GameCode, gameCode);
 
             // Perform the update operation
-            await _dbContext.Games.UpdateOneAsync(filter, update);
+            var updated = await _dbContext.Games.UpdateOneAsync(filter, update);
+
+            if (updated.ModifiedCount > 0)
+            {
+                var updatedGame = _gameService.GetGameByGameCode(gameCode);
             
-            var updatedGame = _gameService.GetGameByGameCode(gameCode);
-            
-            return View("/Views/AdminPage/Index.cshtml", updatedGame);
+                return View("/Views/AdminPage/Index.cshtml", updatedGame);
+            }
+            else
+            {
+                return View("Error");
+            } 
         }
 
         [HttpPost]
@@ -348,11 +371,18 @@ namespace SpeiderGames.Controllers
             
             var update = Builders<Game>.Update.Set(g => g.Posts[index-1].Description, description);
             
-            await _dbContext.Games.UpdateOneAsync(filter, update);
+            var updated = await _dbContext.Games.UpdateOneAsync(filter, update);
+
+            if (updated.ModifiedCount > 0)
+            {
+                var updatedGame = _gameService.GetGameByGameCode(gameCode);
             
-            var updatedGame = _gameService.GetGameByGameCode(gameCode);
-            
-            return View("/Views/AdminPage/Index.cshtml", updatedGame);
+                return View("/Views/AdminPage/Index.cshtml", updatedGame);
+            }
+            else
+            {
+                return View("Error");
+            } 
         }
     }
 }
