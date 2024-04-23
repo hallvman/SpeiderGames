@@ -225,13 +225,7 @@ namespace SpeiderGames.Controllers
                     var teamUpdate = Builders<Game>.Update.Push($"Teams.$.Posts", newPost);
 
                     // Perform the update operation.
-                    var updated = await _dbContext.Games.UpdateOneAsync(teamFilter, teamUpdate);
-                    if (updated.ModifiedCount > 0)
-                    {
-                        var updatedGame = _gameService.GetGameByGameCode(gameCode);
-            
-                        return View("/Views/AdminPage/Index.cshtml", updatedGame);
-                    }
+                    await _dbContext.Games.UpdateOneAsync(teamFilter, teamUpdate);
                 }
             }
             catch (Exception e)
@@ -240,7 +234,9 @@ namespace SpeiderGames.Controllers
                 throw;
             }
             
-            return View("Error");
+            var updatedGame = _gameService.GetGameByGameCode(gameCode);
+            
+            return View("/Views/AdminPage/Index.cshtml", updatedGame);
         }
         
         [HttpPost]
@@ -277,17 +273,13 @@ namespace SpeiderGames.Controllers
                             Builders<Game>.Filter.ElemMatch(g => g.Teams, t => t.TeamName == team.TeamName)
                         );
 
-                        var updated = await _dbContext.Games.UpdateOneAsync(teamFilter, teamUpdate);
-                        if (updated.ModifiedCount > 0)
-                        {
-                            var updatedGame = _gameService.GetGameByGameCode(gameCode);
-            
-                            return View("/Views/AdminPage/Index.cshtml", updatedGame);
-                        }
+                        await _dbContext.Games.UpdateOneAsync(teamFilter, teamUpdate);
                     }
                 }
             }
-            return View("Error");
+            var updatedGame = _gameService.GetGameByGameCode(gameCode);
+            
+            return View("/Views/AdminPage/Index.cshtml", updatedGame);
         }
         
         [HttpPost]
@@ -306,18 +298,11 @@ namespace SpeiderGames.Controllers
             var filter = Builders<Game>.Filter.Eq(g => g.GameCode, gameCode);
             var update = Builders<Game>.Update.Set(g => g.Teams, game.Teams);
             
-            var updated = await _dbContext.Games.UpdateOneAsync(filter, update);
+            await _dbContext.Games.UpdateOneAsync(filter, update);
 
-            if (updated.ModifiedCount > 0)
-            {
-                var updatedGame = _gameService.GetGameByGameCode(gameCode);
+            var updatedGame = _gameService.GetGameByGameCode(gameCode);
             
-                return View("/Views/AdminPage/Index.cshtml", updatedGame);
-            }
-            else
-            {
-                return View("Error");
-            }
+            return View("/Views/AdminPage/Index.cshtml", updatedGame);
         }
         
         [HttpPost]
@@ -342,18 +327,11 @@ namespace SpeiderGames.Controllers
             var filter = Builders<Game>.Filter.Eq(g => g.GameCode, gameCode);
 
             // Perform the update operation
-            var updated = await _dbContext.Games.UpdateOneAsync(filter, update);
+            await _dbContext.Games.UpdateOneAsync(filter, update);
 
-            if (updated.ModifiedCount > 0)
-            {
-                var updatedGame = _gameService.GetGameByGameCode(gameCode);
+            var updatedGame = _gameService.GetGameByGameCode(gameCode);
             
-                return View("/Views/AdminPage/Index.cshtml", updatedGame);
-            }
-            else
-            {
-                return View("Error");
-            } 
+            return View("/Views/AdminPage/Index.cshtml", updatedGame);
         }
 
         [HttpPost]
