@@ -24,17 +24,41 @@
             </div>
             <div class="form-group">
                 <label for="Posts">Velg Post:</label>
-                <select asp-for="PostName" asp-items="@Model.Posts"></select>
+                <select id="postSelect" asp-for="PostName">
+                    @foreach(var post in Model.PostDescriptions)
+                    {
+                        var name = $"{@post.Key}";
+                        @if (@post.Value != "")
+                        {
+                            name += $" - {@post.Value}";
+                        }
+                        <option value="@post.Key" data-description="@post.Value">@name</option>
+                    }
+                </select>
+                <label id="postDescription"></label>
             </div>
             <div class="form-group">
-                <label for="PostPin">Pin:</label>
+                <label for="PostPin">PIN-kode:</label>
                 <input type="number" asp-for="PostPin" required>
+                <small id="pinHelp" class="form-text text-muted">Skriv inn din 4-sifrede PIN.</small>
+                <small id="pinHelp" class="form-text text-muted">Kontakt Admin hvis du mangler.</small>
             </div>
             <div class="form-group">
-                <label for="Points">Poeng:</label>
+                <label for="Points">Antall Poeng:</label>
                 <input type="number" asp-for="Points" required>
             </div>
             <button class="stylish-button" type="submit">Send Inn</button>
         </form>
     </div>
 </div>
+<script>
+$(document).ready(function(){
+    $('#postSelect').change(function(){
+        var selectedDescription = $(this).find('option:selected').data('description');
+        $('#postDescription').text(selectedDescription);
+    });
+
+    // Trigger change on page load to display the description of the initially selected post
+    $('#postSelect').change();
+});
+</script>

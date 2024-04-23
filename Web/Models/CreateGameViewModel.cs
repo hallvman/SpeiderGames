@@ -51,7 +51,7 @@ namespace SpeiderGames.Models
         public SelectList? Teams { get; set; }
         public SelectList? Posts { get; set; }
         
-        public List<string>? AllPosts { get; set; } 
+        public Dictionary<string, string> PostDescriptions { get; set; } = new Dictionary<string, string>();
         public bool LogUpdate { get; set; }
         public string? GameName { get; set; }
         public string? GameCode { get; set; }

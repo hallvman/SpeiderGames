@@ -8,9 +8,11 @@ public interface IGameService
 {
     Game GetGameByGameCode(string gameCode); 
     bool UpdatePoints(string gameName, string teamName, string postName, string postPin, int points);
-    List<Team> GetTeamsForGame(string selectedGame);
-    List<Post> GetPostsForGame(string selectedGame);
-
+    List<Team> GetTeamsForGame(string selectedGame, string gameCode);
+    List<Post> GetPostsForGame(string selectedGame, string gameCode);
+    List<Team> GetTeamsByGameName(string gameName);
+    List<Post> GetPostsByGameName(string gameName);
+    
     List<Game> GetGames();
     bool ValidateGameCode(string gameCode);
     
@@ -46,9 +48,10 @@ public class MongoDBGetGameService : IGameService
         return logs ?? new List<Log>();
     }
     
-    public List<Team> GetTeamsForGame(string selectedGame)
+    public List<Team> GetTeamsForGame(string selectedGame, string gameCode)
     {
-        var filter = Builders<Game>.Filter.Eq(g => g.GameName, selectedGame);
+        var filter = Builders<Game>.Filter.Eq(g => g.GameName, selectedGame) & 
+                     Builders<Game>.Filter.Eq(g => g.GameCode, gameCode);
         var projection = Builders<Game>.Projection.Include(g => g.Teams);
 
         var teams = _gameCollection.Find(filter).Project<Game>(projection).FirstOrDefault()?.Teams;
@@ -56,9 +59,31 @@ public class MongoDBGetGameService : IGameService
         return teams ?? new List<Team>();
     }
 
-    public List<Post> GetPostsForGame(string selectedGame)
+    public List<Post> GetPostsForGame(string selectedGame, string gameCode)
     {
-        var filter = Builders<Game>.Filter.Eq(g => g.GameName, selectedGame);
+        var filter = Builders<Game>.Filter.Eq(g => g.GameName, selectedGame) & 
+                     Builders<Game>.Filter.Eq(g => g.GameCode, gameCode);
+
+        var projection = Builders<Game>.Projection.Include(g => g.Posts);
+
+        var posts = _gameCollection.Find(filter).Project<Game>(projection).FirstOrDefault()?.Posts;
+
+        return posts ?? new List<Post>();
+    }
+
+    public List<Team> GetTeamsByGameName(string gameName)
+    {
+        var filter = Builders<Game>.Filter.Eq(g => g.GameName, gameName);
+        var projection = Builders<Game>.Projection.Include(g => g.Teams);
+
+        var teams = _gameCollection.Find(filter).Project<Game>(projection).FirstOrDefault()?.Teams;
+
+        return teams ?? new List<Team>();
+    }
+
+    public List<Post> GetPostsByGameName(string gameName)
+    {
+        var filter = Builders<Game>.Filter.Eq(g => g.GameName, gameName);
         var projection = Builders<Game>.Projection.Include(g => g.Posts);
 
         var posts = _gameCollection.Find(filter).Project<Game>(projection).FirstOrDefault()?.Posts;
@@ -115,7 +140,7 @@ public class MongoDBGetGameService : IGameService
 
         var updateResult = _gameCollection.UpdateOne(filter, update, options);
    
-        return updateResult.ModifiedCount > 0;
+        return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
     }
     
     public bool UpdatePointsInLogs(string gameName, string teamName, string postName, int points, bool updateByAdmin)

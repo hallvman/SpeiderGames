@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.UseUrls("http://*:" + Environment.GetEnvironmentVariable("PORT"));
+//builder.WebHost.UseUrls("http://*:" + Environment.GetEnvironmentVariable("PORT"));
 
 builder.Services.AddControllersWithViews();
 

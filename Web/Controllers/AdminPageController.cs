@@ -38,7 +38,7 @@ namespace SpeiderGames.Controllers
 
                 if (isValidGamecode)
                 {
-                    var posts = _gameService.GetPostsForGame(game.GameName);
+                    var posts = _gameService.GetPostsForGame(game.GameName, game.GameCode);
                     ViewData["LogoutType"] = "AdminAccessGranted";
                     return View("/Views/AdminPage/Index.cshtml", game);
                 }
@@ -76,7 +76,7 @@ namespace SpeiderGames.Controllers
         [HttpPost]
         public ActionResult SeePostCodes(Game game)
         {
-            var postList = _gameService.GetPostsForGame(game.GameName);
+            var postList = _gameService.GetPostsForGame(game.GameName, game.GameCode);
             
             var model = new Game
             {
@@ -156,8 +156,8 @@ namespace SpeiderGames.Controllers
             }
             // Perform any necessary logic based on the selected game
             // For example, you might want to fetch Teams and Posts for the selected game
-            var teams = _gameService.GetTeamsForGame(model.GameName);
-            var posts = _gameService.GetPostsForGame(model.GameName);
+            var teams = _gameService.GetTeamsForGame(model.GameName, model.GameCode);
+            var posts = _gameService.GetPostsForGame(model.GameName, model.GameCode);
             
             // This assumes that you have properties Teams and Posts in your UpdatePointsViewModel
             model.Teams = new SelectList(teams, "TeamName", "TeamName");
@@ -311,7 +311,7 @@ namespace SpeiderGames.Controllers
             var game = _gameService.GetGameByGameCode(gameCode);
             
             // Initialize the Posts list for the new team with a default post for each existing game post
-            var newTeamPosts = _gameService.GetPostsForGame(game.GameName);
+            var newTeamPosts = _gameService.GetPostsForGame(game.GameName, game.GameCode);
             
             // Create a new team object
             var newTeam = new Team

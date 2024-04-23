@@ -60,9 +60,12 @@ input, select {
     text-align: center; /* Center the text inside the button */
     display: inline-block; /* Allows the button to be sized according to its content */
     text-decoration: none; /* Removes underline from links if you use <a> tag instead */
-    margin-top: 15px;
 }
 
 .stylish-button:hover {
     background-color: #559d3d; /* Darker shade of green on hover */
+}
+
+.form-group small {
+    display: block;
 }

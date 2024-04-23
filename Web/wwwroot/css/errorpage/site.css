@@ -25,4 +25,5 @@
 
 .stylish-button:hover {
     background-color: #559d3d; /* Darker shade of green on hover */
+    color: #fff; /* White text */
 }

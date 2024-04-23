@@ -37,18 +37,19 @@ namespace SpeiderGames.Controllers
                 var isValidGame = _gameService.GetGames().Any(g => g.GameName == selectedGameName);
                 if (isValidGame)
                 {
-                    var teams = _gameService.GetTeamsForGame(selectedGameName);
-                    var posts = _gameService.GetPostsForGame(selectedGameName);
+                    var teams = _gameService.GetTeamsByGameName(selectedGameName);
+                    var posts = _gameService.GetPostsByGameName(selectedGameName)
+                        .Select(p => new { p.PostName, Description = p.Description ?? ""}).ToList();
+
                     var game = new UpdatePointsViewModel
                     {
                         GameName = selectedGameName,
                         Teams = new SelectList(teams, "TeamName", "TeamName"),
-                        Posts = new SelectList(posts, "PostName", "PostName")
+                        PostDescriptions = posts.ToDictionary(p => p.PostName, p => p.Description)
                     };
                     ViewData["LogoutType"] = "SelectedGame";
                     return View("UpdatePoints", game);
                 }
-                // If the game name is not valid, you might choose to clear the cookie or take other appropriate actions.
             }
             var games = _gameService.GetGames();
             
@@ -65,11 +66,12 @@ namespace SpeiderGames.Controllers
         [HttpPost]
         public ActionResult SelectGame(UpdatePointsViewModel model)
         {
-            var teams = _gameService.GetTeamsForGame(model.GameName);
-            var posts = _gameService.GetPostsForGame(model.GameName);
-            
+            var teams = _gameService.GetTeamsByGameName(model.GameName);
+            var posts = _gameService.GetPostsByGameName(model.GameName)
+                .Select(p => new { p.PostName, Description = p.Description ?? ""}).ToList();
+
             model.Teams = new SelectList(teams, "TeamName", "TeamName");
-            model.Posts = new SelectList(posts, "PostName", "PostName");
+            model.PostDescriptions = posts.ToDictionary(p => p.PostName, p => p.Description); //
 
             Response.Cookies.Append("SelectedGame", model.GameName, new CookieOptions
             {
