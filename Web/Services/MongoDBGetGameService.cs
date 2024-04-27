@@ -17,7 +17,7 @@ public interface IGameService
     bool ValidateGameCode(string gameCode);
     
     string GetPostPinForPostName(string gameCode, string postName);
-    int GetPointsForPostName(string gameName, string postName);
+    int GetPointsForPostName(string gameName, string postName, string teamName);
     List<Log> GetDataFromMongoDB(string selectedGame);
     bool UpdatePointsInLogs(string gameName, string teamName, string postName, int points, bool updateByAdmin);
 }
@@ -136,7 +136,7 @@ public class MongoDBGetGameService : IGameService
             new BsonDocumentArrayFilterDefinition<BsonDocument>(new BsonDocument("team.TeamName", teamName)),
             new BsonDocumentArrayFilterDefinition<BsonDocument>(new BsonDocument { { "post.PostName", postName }, { "post.PostPin", postPin } })
         };
-        var oldPoints = GetPointsForPostName(gameName, postName);
+        var oldPoints = GetPointsForPostName(gameName, postName, teamName);
         if (oldPoints != points)
         {
             var options = new UpdateOptions { ArrayFilters = arrayFilters };
@@ -205,12 +205,13 @@ public class MongoDBGetGameService : IGameService
         return postPin;
     }
     
-    public int GetPointsForPostName(string gameName, string postName)
+    public int GetPointsForPostName(string gameName, string postName, string teamName)
     {
         var pipeline = new BsonDocument[]
         {
             new BsonDocument("$match", new BsonDocument("GameName", gameName)),
             new BsonDocument("$unwind", new BsonDocument("path", "$Teams")),
+            new BsonDocument("$match", new BsonDocument("Teams.TeamName", teamName)),
             new BsonDocument("$unwind", new BsonDocument("path", "$Teams.Posts")),
             new BsonDocument("$match", new BsonDocument("Teams.Posts.PostName", postName)),
             new BsonDocument("$project", new BsonDocument
