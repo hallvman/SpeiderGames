@@ -7,7 +7,7 @@ using SpeiderGames.Models;
 public interface IGameService
 {
     Game GetGameByGameCode(string gameCode); 
-    bool UpdatePoints(string gameName, string teamName, string postName, string postPin, int points);
+    bool UpdatePoints(string gameName, string teamName, string postName, string postPin, double points);
     List<Team> GetTeamsForGame(string selectedGame, string gameCode);
     List<Post> GetPostsForGame(string selectedGame, string gameCode);
     List<Team> GetTeamsByGameName(string gameName);
@@ -17,9 +17,9 @@ public interface IGameService
     bool ValidateGameCode(string gameCode);
     
     string GetPostPinForPostName(string gameCode, string postName);
-    int GetPointsForPostName(string gameName, string postName, string teamName);
+    double GetPointsForPostName(string gameName, string postName, string teamName);
     List<Log> GetDataFromMongoDB(string selectedGame);
-    bool UpdatePointsInLogs(string gameName, string teamName, string postName, int points, bool updateByAdmin);
+    bool UpdatePointsInLogs(string gameName, string teamName, string postName, double points, bool updateByAdmin);
 }
 
 public class MongoDBGetGameService : IGameService
@@ -120,7 +120,7 @@ public class MongoDBGetGameService : IGameService
         }
     }
     
-    public bool UpdatePoints(string gameName, string teamName, string postName, string postPin, int points)
+    public bool UpdatePoints(string gameName, string teamName, string postName, string postPin, double points)
     {
         // No need to parse index from postName for filtering purposes.
         var filter = Builders<Game>.Filter.And(
@@ -149,7 +149,7 @@ public class MongoDBGetGameService : IGameService
         return true;
     }
     
-    public bool UpdatePointsInLogs(string gameName, string teamName, string postName, int points, bool updateByAdmin)
+    public bool UpdatePointsInLogs(string gameName, string teamName, string postName, double points, bool updateByAdmin)
     {
         DateTime now = DateTime.Now;
         
@@ -205,7 +205,7 @@ public class MongoDBGetGameService : IGameService
         return postPin;
     }
     
-    public int GetPointsForPostName(string gameName, string postName, string teamName)
+    public double GetPointsForPostName(string gameName, string postName, string teamName)
     {
         var pipeline = new BsonDocument[]
         {
@@ -222,7 +222,7 @@ public class MongoDBGetGameService : IGameService
             new BsonDocument("$limit", 1)
         };
         
-        int Points = 0;
+        double Points = 0;
     
         // Using async/await pattern correctly
         var cursor = _gamesCollection.AggregateAsync<BsonDocument>(pipeline).GetAwaiter().GetResult();
@@ -230,7 +230,7 @@ public class MongoDBGetGameService : IGameService
         {
             foreach (var doc in cursor.Current)
             {
-                Points = doc["PostPoints"].AsInt32;
+                Points = doc["PostPoints"].AsDouble;
                 break; // Assuming uniqueness, breaking after the first match
             }
         }

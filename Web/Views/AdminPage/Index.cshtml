@@ -37,7 +37,7 @@
                     </tr>
                     @foreach (var team in Model.Teams)
                     {
-                        int totalPoints = 0;
+                        double totalPoints = 0;
                         <tr>
                             <td class="no-border">
                                 <!-- Delete button for each team -->
@@ -53,7 +53,7 @@
                             <td>@team.TeamName</td>
                             @for (int postIndex = 0; postIndex < team.Posts?.Count(); postIndex++)
                             {
-                                int points = team.Posts[postIndex].PostPoints ?? 0;
+                                double points = team.Posts[postIndex].PostPoints ?? 0;
                                 <td class="small-screen">@points</td>
                                 totalPoints += points;
                             }

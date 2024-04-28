@@ -11,7 +11,7 @@ namespace SpeiderGames.Models
         public string? PostName { get; set; }
         public string? Description {get; set;}
         public string? PostPin { get; set; }
-        public int? PostPoints { get; set; }
+        public double? PostPoints { get; set; }
     }
     [Serializable]
     public class Team
@@ -41,7 +41,7 @@ namespace SpeiderGames.Models
         public DateTime RequestDate { get; set; }
         public string? TeamName { get; set; }
         public string? PostName { get; set; }
-        public int Points { get; set; }
+        public double Points { get; set; }
         public bool UpdateByAdmin { get; set; }
     }
     
@@ -58,6 +58,6 @@ namespace SpeiderGames.Models
         public string? TeamName { get; set; }
         public string? PostName { get; set; }
         public string? PostPin { get; set; }
-        public int Points { get; set; }
+        public double Points { get; set; }
     }
 }
